@@ -58,7 +58,7 @@ public class UserController {
     /**
      * 用户更改密码
      */
-    @RequestMapping(value = "/passowrd/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/password/edit", method = RequestMethod.POST)
     public BaseResp changePassword(String token, @RequestBody ChangePasswordReq changePasswordReq){
 
         int errCode = userService.changePassword(token, changePasswordReq.oldPassword, changePasswordReq.newPassword, changePasswordReq.confirmPassword);
