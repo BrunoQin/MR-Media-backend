@@ -53,18 +53,14 @@ response body: {
 ### 2.1 `管理员`权限查看所有经纪人（分页）
 ```
 url: /admin/employee/agents
-method: post
-path variable: token
-request body: {
-	"pageSize", //integer
-	"pageNumber", //integer
-}
+method: get
+path variable: token, pageId, pageSize, *disable, *username
 ```
 ```
 response body: {
 	"errCode", //integer
+	"pageId", //integer
 	"pageSize", //integer
-	"pageNumber", //integer
 	"totalPage", //integer
 	"agents": [{
 		"uid": //long
@@ -76,17 +72,13 @@ response body: {
 ```
 url: /admin/employee/actors
 method: post
-path variable: token
-request body: {
-	"pageSize", //integer
-	"pageNumber", //integer
-}
+path variable: token, pageId, pageSize, *disable, *username
 ```
 ```
 response body: {
 	"errCode", //integer
+	"pageId", //integer
 	"pageSize", //integer
-	"pageNumber", //integer
 	"totalPage", //integer
 	"actors": [{
 		"uid": //long
