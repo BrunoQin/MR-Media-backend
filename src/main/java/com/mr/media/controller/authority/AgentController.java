@@ -4,6 +4,7 @@ import com.mr.media.request.BaseReq;
 import com.mr.media.request.authority.agent.AddEmployeeReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.agent.AddEmployeeResp;
+import com.mr.media.response.authority.agent.PositionResp;
 import com.mr.media.service.authority.AgentService;
 import javafx.util.Pair;
 import org.slf4j.Logger;
@@ -33,6 +34,12 @@ public class AgentController {
         AddEmployeeResp.Employee employee = new AddEmployeeResp.Employee();
         employee.uid = pair.getValue();
         return new AddEmployeeResp(pair.getKey(), employee);
+    }
+
+    @RequestMapping(value = "/position", method = RequestMethod.GET)
+    public BaseResp showAgentPosition(String token){
+        Pair<Integer, PositionResp.Position> pair = agentService.getUserPosition(token);
+        return new PositionResp(pair.getKey(), pair.getValue());
     }
 
 }
