@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/BrunoQin/MR-Media-backend.svg?branch=master)](https://travis-ci.org/BrunoQin/MR-Media-backend)
 # MR-Media-backend
 
 ```
