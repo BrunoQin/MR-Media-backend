@@ -17,6 +17,12 @@ public class UserService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
+    public User findUserByUsername(String username){
+        return Ebean.find(User.class).where()
+                .eq("username", username)
+                .findUnique();
+    }
+
     public User findUserByUid(String uid){
         return Ebean.find(User.class).where()
                 .eq("uid", uid)
