@@ -1,0 +1,23 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+before_install:
+  - java -v
+  - gradle -v
+  - cd /var/log
+  - mkdir MRMedia
+  - cd MRMedia
+  - mkdir backend
+  - cd backend
+  - touch mrmedia-backweb.log
+  - chmod 777 mrmedia-backweb.log
+  - gradle check
+
+install:
+  - gradle build
+
+script:
+   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
+   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'
