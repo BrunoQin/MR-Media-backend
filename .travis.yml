@@ -4,16 +4,9 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - java -v
-  - gradle -v
-  - cd /var/log
-  - mkdir MRMedia
-  - cd MRMedia
-  - mkdir backend
-  - cd backend
-  - touch mrmedia-backweb.log
-  - chmod 777 mrmedia-backweb.log
+  - java -version
   - gradle check
+  - gradle -v
 
 install:
   - gradle build
