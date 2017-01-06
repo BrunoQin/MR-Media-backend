@@ -17,6 +17,10 @@ public class BaseResp {
     public static final int CONFIRM_NOT_MATCH = 6;
     // 新旧密码相同
     public static final int NEW_AND_OLD_SAME = 7;
+    // 页码错误
+    public static final int WRONG_PAGE_PARAM = 8;
+    // 权限不足
+    public static final int PERMITION_NOT_ALLOW = 9;
 
     // 未知错误
     public static final int UNKNOWN = 999;

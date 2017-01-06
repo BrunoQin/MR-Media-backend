@@ -13,6 +13,10 @@ import java.util.Date;
 @Table(name = "User")
 public class User extends Model {
 
+    public final static int ADMIN_AUTHORITY = 1;
+    public final static int AGENT_AUTHORITY = 2;
+    public final static int ACTOR_AUTHORITY = 3;
+
     @Id
     @Column(name = "id")
     int id;

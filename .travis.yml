@@ -1,0 +1,17 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2
+
+before_install:
+  - java -version
+  - gradle check
+  - gradle -v
+
+install:
+  - gradle build
