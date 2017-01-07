@@ -60,8 +60,6 @@ public class UserController {
      */
     @RequestMapping(value = "/password/edit", method = RequestMethod.POST)
     public BaseResp changePassword(String token, @RequestBody ChangePasswordReq changePasswordReq){
-        System.out.print(changePasswordReq);
-        System.out.println(token);
         int errCode = userService.changePassword(token, changePasswordReq.oldPassword, changePasswordReq.newPassword, changePasswordReq.confirmPassword);
         return new BaseResp(errCode);
 
