@@ -17,6 +17,8 @@ public class User extends Model {
     public final static int AGENT_AUTHORITY = 2;
     public final static int ACTOR_AUTHORITY = 3;
 
+    public final static String DEFAULT_PWD = "password";
+
     @Id
     @Column(name = "id")
     int id;

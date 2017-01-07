@@ -27,7 +27,7 @@ path variable: token
 response body: {
 	"errCode", //integer
 	"profile": {
-		"uid", //long
+		"uid", //string
 		"username", //string
 		...
 	}
@@ -35,7 +35,7 @@ response body: {
 ```
 ### 1.3 用户更改密码
 ```
-url: /user/passowrd/edit
+url: /user/password/edit
 method: post
 path variable: token
 request body: {
@@ -63,7 +63,7 @@ response body: {
 	"pageSize", //integer
 	"totalPage", //integer
 	"agents": [{
-		"uid": //long
+		"uid": //string
 		"username", //string
 	}, ...],
 }
@@ -81,7 +81,7 @@ response body: {
 	"pageSize", //integer
 	"totalPage", //integer
 	"actors": [{
-		"uid": //long
+		"uid": //string
 		"username", //string
 	}, ...],
 }
@@ -100,7 +100,7 @@ request body: {
 response body: {
 	"errCode", //integer
 	"subEmployee": {
-		"uid", //long
+		"uid", //string
 	}
 }
 ```
@@ -115,11 +115,11 @@ response body: {
 	"errCode", //integer
 	"position": {
 		"super": {
-			"uid", //long
+			"uid", //string
 			"username", //string
 		}, 
 		"sub": [{
-			"uid", //long
+			"uid", //string
 			"username", //string
 			"superIndex", //long
 		}, ...]

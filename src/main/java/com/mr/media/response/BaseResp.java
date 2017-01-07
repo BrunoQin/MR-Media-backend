@@ -22,6 +22,18 @@ public class BaseResp {
     // 权限不足
     public static final int PERMITION_NOT_ALLOW = 9;
 
+    // 创建用户名为空
+    public static final int CREATED_USERNAME_NULL = 10;
+
+    // 创建用户名已存在
+    public static final int CREATED_USERNAME_EXIST = 11;
+
+    // 创建用户权限空
+    public static final int CREATED_AUTHORITY_NULL = 12;
+
+    // 创建用户权限无效
+    public static final int CREATED_AUTHORITY_INVALID = 13;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 
