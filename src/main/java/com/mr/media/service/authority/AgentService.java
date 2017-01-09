@@ -69,7 +69,7 @@ public class AgentService {
             childUser.setPassword(User.DEFAULT_PWD);
             childUser.setAuthority(authority);
             childUser.setLevel(parentUser.getLevel() + 1);
-            childUser.setDisable(0);
+            childUser.setDisable(User.USER_ACTIVE);
             childUser.setSuperUser(parentUser);
             childUser.save();
             return new Pair<>(BaseResp.SUCCESS, uid);

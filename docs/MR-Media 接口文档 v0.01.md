@@ -86,7 +86,7 @@ response body: {
 	}, ...],
 }
 ```
-### 2.3 `经纪人`权限添加下线经纪人
+### 2.3 `经纪人`权限添加下线员工
 ```
 url: /agent/add_employee
 method: post

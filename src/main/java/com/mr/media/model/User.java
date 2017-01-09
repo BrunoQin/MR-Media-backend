@@ -19,6 +19,9 @@ public class User extends Model {
 
     public final static String DEFAULT_PWD = "password";
 
+    public final static Integer USER_ACTIVE = 0;
+    public final static Integer USER_DEACTIVE = 1;
+
     @Id
     @Column(name = "id")
     int id;
