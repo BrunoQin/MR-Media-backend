@@ -43,7 +43,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             writeResponse(content, response);
             return false;
         }
-        if(user.getDisable() == 1){
+        if(user.getDisable() == User.USER_DEACTIVE){
             BaseResp content = new BaseResp(BaseResp.USER_DEACTIVE);
             writeResponse(content, response);
             return false;

@@ -46,7 +46,7 @@ public class UserService {
             return BaseResp.PASSWORD_NOT_MATCH;
         }
 
-        if(user.getDisable() == 1){
+        if(user.getDisable() == User.USER_DEACTIVE){
             return BaseResp.USER_DEACTIVE;
         }
 
