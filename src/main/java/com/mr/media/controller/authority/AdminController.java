@@ -6,7 +6,7 @@ import com.mr.media.response.authority.admin.GetPagedActorsResp;
 import com.mr.media.response.authority.admin.GetPagedAgentsResp;
 import com.mr.media.service.UserService;
 import com.mr.media.service.authority.AdminService;
-import javafx.util.Pair;
+import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class AdminController {
 
         Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.AGENT_AUTHORITY, disable, username);
 
-        List<GetPagedAgentsResp.Agent> agents = pair.getValue().stream().map(
+        List<GetPagedAgentsResp.Agent> agents = pair.getSecond().stream().map(
                 o -> {
                     GetPagedAgentsResp.Agent agent = new GetPagedAgentsResp.Agent();
                     agent.uid = o.getUid();
@@ -55,7 +55,7 @@ public class AdminController {
                 }
         ).collect(Collectors.toList());
 
-        return new GetPagedAgentsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getKey(), agents);
+        return new GetPagedAgentsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getFirst(), agents);
 
     }
 
@@ -72,7 +72,7 @@ public class AdminController {
 
         Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.ACTOR_AUTHORITY, disable, username);
 
-        List<GetPagedActorsResp.Actor> actors = pair.getValue().stream().map(
+        List<GetPagedActorsResp.Actor> actors = pair.getSecond().stream().map(
                 o -> {
                     GetPagedActorsResp.Actor actor = new GetPagedActorsResp.Actor();
                     actor.uid = o.getUid();
@@ -81,7 +81,7 @@ public class AdminController {
                 }
         ).collect(Collectors.toList());
 
-        return new GetPagedActorsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getKey(), actors);
+        return new GetPagedActorsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getFirst(), actors);
 
     }
 }

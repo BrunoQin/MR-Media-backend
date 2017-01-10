@@ -1,23 +1,20 @@
 package com.mr.media.service.authority;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.ExpressionList;
-import com.avaje.ebean.OrderBy;
 import com.avaje.ebean.Query;
 import com.mr.media.model.User;
-import com.mr.media.request.authority.agent.AddEmployeeReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.agent.PositionResp;
 import com.mr.media.service.UserService;
+import com.mr.media.tool.Pair;
 import com.mr.media.util.UidHelper;
-import javafx.util.Pair;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

@@ -15,8 +15,10 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor(userService))
-                .addPathPatterns("/user/**")
-                .excludePathPatterns("/user/login");
+                .addPathPatterns("/user/**",
+                        "/admin/**", "/agent/**")
+                .excludePathPatterns("/user/login",
+                        "/WeChat/**");
 
         super.addInterceptors(registry);
     }
