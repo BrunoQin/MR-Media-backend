@@ -5,10 +5,9 @@ import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
-import javafx.util.Pair;
+import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.expression.Expression;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
