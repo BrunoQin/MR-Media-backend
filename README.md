@@ -8,3 +8,5 @@ gradle build
 cd build/libs
 ```
 Find the war and deploy it!
+
+you can view `http://localhost:port/your_app_base_url/swagger-ui.html` to test and use api!
