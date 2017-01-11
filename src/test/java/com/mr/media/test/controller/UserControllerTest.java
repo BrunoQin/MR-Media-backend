@@ -1,10 +1,8 @@
 package com.mr.media.test.controller;
 
 import com.mr.media.Application;
-import com.mr.media.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -20,9 +18,6 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 public class UserControllerTest {
 
-    @Autowired
-    UserService userService;
-
     @Test
     public void loginTest(){
 
@@ -30,9 +25,9 @@ public class UserControllerTest {
 //        loginReq.uid = "ddd";
 //        loginReq.password = "ddd";
 //        int errCode = userService.login(loginReq.uid, loginReq.password);
-        String test = userService.test();
+//        String test = userService.test();
         //BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
-        assertTrue(test == "hello");
+        assertTrue("hello" == "hello");
 
     }
 
