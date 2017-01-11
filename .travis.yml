@@ -1,19 +1,28 @@
 language: java
 
+dist: trusty
+sudo: required
+
+addons:
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+
 jdk:
   - oraclejdk8
+
+services:
+  - mysql
 
 cache:
   directories:
   - .autoconf
   - $HOME/.m2
 
-before_install:
+script:
   - gradle check
-
-install:
-  - gradle build
-  - gradle test
 
 after_success:
   - gradle jacoco
