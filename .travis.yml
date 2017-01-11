@@ -15,3 +15,8 @@ before_install:
 
 install:
   - gradle build
+  - gradle test
+
+after_success:
+  - gradle jacoco
+  - gradle jacocoTestReport coveralls
