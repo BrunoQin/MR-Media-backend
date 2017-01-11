@@ -35,6 +35,9 @@ public class User extends Model {
     @Column(name = "password")
     String password;
 
+    @Column(name = "avatar")
+    String avatar;
+
     @Column(name = "authority")
     int authority;
 
@@ -84,6 +87,14 @@ public class User extends Model {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getAuthority() {
