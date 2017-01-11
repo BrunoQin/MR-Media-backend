@@ -26,7 +26,8 @@ public class UserControllerTest {
     @Test
     public void loginTest(){
 
-        BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
+        //BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
+        return ;
 
     }
 
