@@ -79,6 +79,11 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
 }
 
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class"
+}
+
 ant.taskdef(
         name: "ebeanEnhance",
         classname:"com.avaje.ebean.enhance.ant.AntEnhanceTask",
