@@ -69,15 +69,4 @@ public class UserController {
 
     }
 
-    /**
-     * 艺人上传个人照片
-     */
-
-
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResp uploadFile(String token, @RequestParam("file") MultipartFile file) throws IOException {
-        int errorCode = userService.UploadAvatar(token, file);
-        return new BaseResp(errorCode);
-    }
 }

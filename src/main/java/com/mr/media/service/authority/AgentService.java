@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 /**
  * Created by i321273 on 1/6/17.

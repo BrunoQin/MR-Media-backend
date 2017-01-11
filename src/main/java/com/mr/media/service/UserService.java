@@ -3,17 +3,10 @@ package com.mr.media.service;
 import com.avaje.ebean.Ebean;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
-import com.mr.media.util.FileHelper;
 import com.mr.media.util.TokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.*;
-import java.nio.file.Paths;
 
 /**
  * Created by i321273 on 1/5/17.
@@ -23,9 +16,6 @@ import java.nio.file.Paths;
 public class UserService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    Environment environment;
 
     public User findUserByUsername(String username){
         return Ebean.find(User.class).where()
@@ -93,23 +83,5 @@ public class UserService {
         }
     }
 
-     public int UploadAvatar(String token, MultipartFile uploadFile){
-             User user = findUserByToken(token);
-             String filename = FileHelper.generateName(uploadFile.getOriginalFilename(), user.getUid());
-             String directory = environment.getProperty("mr.media.paths.uploadedFiles");
-             String filepath = Paths.get(directory, filename).toString();
-         try {
-
-             Boolean result = FileHelper.saveFile(filepath, uploadFile.getBytes());
-             if(result){
-                 return BaseResp.SUCCESS;
-             }
-             else {
-                 return BaseResp.UNKNOWN;
-             }
-         } catch (IOException e) {
-             return BaseResp.UNKNOWN;
-         }
-     }
 
 }
