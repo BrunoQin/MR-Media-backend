@@ -11,6 +11,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by i321273 on 1/11/17.
  */
@@ -31,7 +33,7 @@ public class UserControllerTest {
         loginReq.password = "ddd";
         BaseResp baseResp = userController.login(loginReq);
         //BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
-        assert baseResp.errCode == BaseResp.SUCCESS;
+        assertTrue(baseResp.errCode == BaseResp.SUCCESS);
 
     }
 
