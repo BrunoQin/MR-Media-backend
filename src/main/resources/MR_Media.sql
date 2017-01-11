@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: MR_Media
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.7.14
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS `actor_video`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `actor_video` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT NULL,
+  `owner_id` int(11) DEFAULT NULL,
   `location` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `video_owner_idx` (`uid`),
-  CONSTRAINT `video_owner` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `video_owner_idx` (`owner_id`),
+  CONSTRAINT `ower_id_user_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,4 +66,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-11 10:15:12
+-- Dump completed on 2017-01-11 13:57:11
