@@ -1,8 +1,6 @@
 package com.mr.media.test.controller;
 
 import com.mr.media.Application;
-import com.mr.media.request.user.LoginReq;
-import com.mr.media.response.BaseResp;
 import com.mr.media.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,12 +26,13 @@ public class UserControllerTest {
     @Test
     public void loginTest(){
 
-        LoginReq loginReq = new LoginReq();
-        loginReq.uid = "ddd";
-        loginReq.password = "ddd";
-        int errCode = userService.login(loginReq.uid, loginReq.password);
+//        LoginReq loginReq = new LoginReq();
+//        loginReq.uid = "ddd";
+//        loginReq.password = "ddd";
+//        int errCode = userService.login(loginReq.uid, loginReq.password);
+        String test = userService.test();
         //BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
-        assertTrue(errCode == BaseResp.SUCCESS);
+        assertTrue(test == "hello");
 
     }
 
