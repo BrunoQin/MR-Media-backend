@@ -16,8 +16,6 @@ import java.io.IOException;
  */
 @Service
 public class ActorService {
-    @Autowired
-    Environment environment;
 
     @Autowired
     UserService userService;
