@@ -17,7 +17,7 @@ level | int(11) | NN | | 用户的等级|
 super_id | int(11) | NN | | 上级的id（不是uid), 外键指向user表
 disable | int(11) | NN | 0 | 用户是否是不可用的（有可能用户被解雇等）
 token | varchar(128) | | NULL |
-valid_time | DATETIME | | |token的有效时间
+valid_time | DATETIME | |NULL |token的有效时间
 
 
 ## actor_video
