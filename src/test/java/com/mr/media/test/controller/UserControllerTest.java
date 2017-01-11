@@ -27,7 +27,7 @@ public class UserControllerTest {
     public void loginTest(){
 
         BaseResp baseResp = new BaseResp(BaseResp.SUCCESS); //userController.login(loginReq);
-        assert baseResp.errCode == BaseResp.SUCCESS;
+
     }
 
 }
