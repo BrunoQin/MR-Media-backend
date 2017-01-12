@@ -1,5 +1,6 @@
 package com.mr.media.service.authority;
 
+import com.google.common.io.Files;
 import com.mr.media.model.ActorVideo;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -27,6 +29,9 @@ public class ActorService {
 
     public UploadAvatarResp UploadAvatar(String token, MultipartFile uploadFile){
         User user = userService.findUserByToken(token);
+        if(!validateAvatar(uploadFile.getOriginalFilename())){
+            return new UploadAvatarResp(BaseResp.UPLOAD_FILE_TYPE_NOT_ALLOW, null);
+        }
         String filename = fileHelper.generateFilename(uploadFile.getOriginalFilename(), user.getUid());
         String filePath = fileHelper.generateFilePath(filename);
         try {
@@ -44,8 +49,23 @@ public class ActorService {
         }
     }
 
+    private Boolean validateAvatar(String filename){
+        String extensionName = Files.getFileExtension(filename);
+        return fileHelper.validateAvatarType(extensionName);
+    }
+
+    private Boolean validateVideo(String filename){
+        String extensionName = Files.getFileExtension(filename);
+        return fileHelper.validateVideoTyoe(extensionName);
+    }
+
+
+
     public UploadVideoResp uploadVideo(String token, MultipartFile uploadFile) {
         User user = userService.findUserByToken(token);
+        if(!validateVideo(uploadFile.getOriginalFilename())){
+            return new UploadVideoResp(BaseResp.UPLOAD_FILE_TYPE_NOT_ALLOW, null);
+        }
         String filename = fileHelper.generateFilename(uploadFile.getOriginalFilename(), user.getUid());
         String filePath = fileHelper.generateFilePath(filename);
         try {

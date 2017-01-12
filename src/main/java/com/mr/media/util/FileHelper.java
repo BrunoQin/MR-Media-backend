@@ -7,7 +7,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -20,6 +22,12 @@ public class FileHelper {
 
     @Value("${paths.uploadedFiles}")
     String uploadFilePath;
+
+    @Value("${avatar-upload-types}")
+    String[] allowedAvatarTypes;
+
+    @Value("${video-upload-types}")
+    String[] allowedVideoTypes;
 
     public Boolean saveFile(String absolutePath, byte[] fileContent){
         try{
@@ -40,6 +48,14 @@ public class FileHelper {
     public String generateFilename(String filename, String prefix){
         UUID uuid = UUID.randomUUID();
         return prefix + uuid.toString() +filename;
+    }
+
+    public Boolean validateAvatarType(String type){
+        return Arrays.asList(allowedAvatarTypes).contains(type);
+    }
+
+    public Boolean validateVideoTyoe(String type){
+        return Arrays.asList(allowedVideoTypes).contains(type);
     }
 
 }

@@ -34,6 +34,9 @@ public class BaseResp {
     // 创建用户权限无效
     public static final int CREATED_AUTHORITY_INVALID = 13;
 
+    // 上传文件类型不支持
+    public static final int UPLOAD_FILE_TYPE_NOT_ALLOW = 14;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 
