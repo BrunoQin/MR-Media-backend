@@ -1,5 +1,7 @@
 language: java
 
+sudo: required
+
 jdk:
   - oraclejdk8
 
@@ -7,6 +9,10 @@ cache:
   directories:
   - .autoconf
   - $HOME/.m2
+
+before_script:
+  - mkdir -p /var/log/MRMedia/backend/
+  - touch /var/log/MRMedia/backend/mrmedia-backweb.log
 
 script:
   - gradle test --debug
