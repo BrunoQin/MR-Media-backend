@@ -9,7 +9,7 @@ cache:
   - $HOME/.m2
 
 script:
-  - gradle test
+  - gradle test --debug
 
 after_success:
   - gradle jacoco
