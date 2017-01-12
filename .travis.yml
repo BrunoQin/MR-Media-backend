@@ -13,6 +13,7 @@ cache:
 before_script:
   - sudo mkdir -p /var/log/MRMedia/backend/
   - sudo touch /var/log/MRMedia/backend/mrmedia-backweb.log
+  - sudo chmod 777 /var/log/MRMedia/backend/mrmedia-backweb.log
 
 script:
   - gradle test --debug
