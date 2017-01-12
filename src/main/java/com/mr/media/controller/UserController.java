@@ -10,6 +10,7 @@ import com.mr.media.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +34,7 @@ public class UserController {
      * 用户登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public BaseResp login(@RequestBody LoginReq loginReq){
 
         int errCode = userService.login(loginReq.uid, loginReq.password);

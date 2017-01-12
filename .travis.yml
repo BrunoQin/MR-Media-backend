@@ -22,7 +22,7 @@ cache:
   - $HOME/.m2
 
 script:
-  - gradle check
+  - gradle test
 
 after_success:
   - gradle jacoco
