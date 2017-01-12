@@ -62,6 +62,9 @@ request body: {
 ```
 response body: {
 	"errCode", //integer
+	"location":{
+		"filename", //String
+	}
 }
 ```
 ### 2.3 艺人上传才艺视频（需进行微信验证）

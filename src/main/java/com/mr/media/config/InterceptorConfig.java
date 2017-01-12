@@ -16,7 +16,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor(userService))
                 .addPathPatterns("/user/**",
-                        "/admin/**", "/agent/**")
+                        "/admin/**", "/agent/**", "/actor/**")
                 .excludePathPatterns("/user/login",
                         "/WeChat/**");
 

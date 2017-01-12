@@ -33,11 +33,13 @@ public class FileHelper {
         return true;
     }
 
-    public String generateFilePath(String filename, String prefix){
-        UUID uuid = UUID.randomUUID();
-        String generatedFilename = prefix + uuid.toString() +filename;
-        return  Paths.get(uploadFilePath, generatedFilename).toString();
+    public String generateFilePath(String filename){
+        return  Paths.get(uploadFilePath, filename).toString();
+    }
 
+    public String generateFilename(String filename, String prefix){
+        UUID uuid = UUID.randomUUID();
+        return prefix + uuid.toString() +filename;
     }
 
 }

@@ -17,7 +17,7 @@ public class ActorVideo extends Model {
     int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ower_id")
+    @JoinColumn(name = "owner_id")
     User superUser;
 
     @Column(name = "location")
