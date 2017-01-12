@@ -34,7 +34,6 @@ public class UserController {
      * 用户登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
     public BaseResp login(@RequestBody LoginReq loginReq){
 
         int errCode = userService.login(loginReq.uid, loginReq.password);
