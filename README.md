@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/BrunoQin/MR-Media-backend.svg?branch=master)](https://travis-ci.org/BrunoQin/MR-Media-backend)
+[![Coverage Status](https://coveralls.io/repos/github/BrunoQin/MR-Media-backend/badge.svg?branch=dev_cover)](https://coveralls.io/github/BrunoQin/MR-Media-backend?branch=dev_cover)
 # MR-Media-backend
 
 ```

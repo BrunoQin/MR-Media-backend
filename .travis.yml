@@ -1,5 +1,7 @@
 language: java
 
+sudo: required
+
 jdk:
   - oraclejdk8
 
@@ -8,10 +10,13 @@ cache:
   - .autoconf
   - $HOME/.m2
 
-before_install:
-  - java -version
-  - gradle check
-  - gradle -v
+before_script:
+  - sudo mkdir -p /var/log/MRMedia/backend/
+  - sudo touch /var/log/MRMedia/backend/mrmedia-backweb.log
+  - sudo chmod 777 /var/log/MRMedia/backend/mrmedia-backweb.log
 
-install:
-  - gradle build
+script:
+  - gradle test
+
+after_success:
+  - gradle jacocoTestReport coveralls
