@@ -27,9 +27,12 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.enabled = true
-        html.enabled = true
-        html.destination = "${buildDir}/jacocoHtml"
+        xml.destination = "${buildDir}/jacocoRootReport.xml"
     }
+}
+
+coveralls {
+    jacocoReportPath = "${buildDir}/jacocoRootReport.xml"
 }
 
 war {

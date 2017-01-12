@@ -16,8 +16,7 @@ before_script:
   - sudo chmod 777 /var/log/MRMedia/backend/mrmedia-backweb.log
 
 script:
-  - gradle test --debug
+  - gradle test
 
 after_success:
-  - gradle jacoco
   - gradle jacocoTestReport coveralls
