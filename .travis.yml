@@ -11,11 +11,11 @@ cache:
   - $HOME/.m2
 
 before_script:
-  - mkdir -p /var/log/MRMedia/backend/
-  - touch /var/log/MRMedia/backend/mrmedia-backweb.log
+  - sudo mkdir -p /var/log/MRMedia/backend/
+  - sudo touch /var/log/MRMedia/backend/mrmedia-backweb.log
 
 script:
-  - gradle test --debug
+  - gradle test
 
 after_success:
   - gradle jacoco
