@@ -54,7 +54,7 @@ public class FileHelper {
         return Arrays.asList(allowedAvatarTypes).contains(type);
     }
 
-    public Boolean validateVideoTyoe(String type){
+    public Boolean validateVideoType(String type){
         return Arrays.asList(allowedVideoTypes).contains(type);
     }
 
