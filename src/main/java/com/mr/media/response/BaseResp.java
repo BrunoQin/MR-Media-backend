@@ -37,6 +37,15 @@ public class BaseResp {
     // 上传文件类型不支持
     public static final int UPLOAD_FILE_TYPE_NOT_ALLOW = 14;
 
+    // 获取用户openid失败
+    public static final int GET_USER_OPENID_ERROR = 15;
+
+    // 用户微信未绑定
+    public static final int USER_WECHAT_NOT_BINDING = 16;
+
+    // 用户微信绑定失败
+    public static final int USER_WECHAT_BINDING_ERROR = 17;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 

@@ -38,8 +38,10 @@ public class WeChatHelper {
     String appId;
     @Value("${weChat.appsecret}")
     String appSecret;
-    @Value("${weChat.access_token.url")
-    String url;
+    @Value("${weChat.access_token.public.url")
+    String publicUrl;
+    @Value("${weChat.access_token.private.url")
+    String privateUrl;
 
     private static final Object publicAccessTokenLock = new Object();
     private static String publicAccessToken = null;
@@ -90,6 +92,33 @@ public class WeChatHelper {
         }
     }
 
+    // 用户认证所需access token,通过该数据获取openid
+    public String getOpenIdByCode(String code){
+        List<NameValuePair> params = new LinkedList<>();
+        params.add(new BasicNameValuePair("appid", appId));
+        params.add(new BasicNameValuePair("secret", appSecret));
+        params.add(new BasicNameValuePair("code", code));
+        params.add(new BasicNameValuePair("grant_type", "authorization_code"));
+
+        String resp = sendGET(privateUrl, params);
+
+        try {
+            JSONObject jsonObj = new JSONObject(resp);
+            if (jsonObj.has("errcode")) {
+                logger.error("查询用户openid失败: " + jsonObj.getString("errmsg"));
+                return null;
+            } else {
+                String openId = jsonObj.getString("openid");
+                logger.info("查询用户openid成功: " + openId);
+                return openId;
+            }
+        } catch (Exception e) {
+            logger.error("查询用户openid失败: ", e);
+            return null;
+        }
+    }
+
+    // 对于消息或者广泛接口(暂未用到)******
     public String getPublicAccessToken(){
         if(publicAccessToken == null ||
                 publicAccessTokenValidTime == null ||
@@ -113,7 +142,7 @@ public class WeChatHelper {
         params.add(new BasicNameValuePair("secret", appSecret));
         params.add(new BasicNameValuePair("grant_type", "client_credential"));
 
-        String resp = sendGET(url, params);
+        String resp = sendGET(publicUrl, params);
         try {
             JSONObject jsonObj = new JSONObject(resp);
             if (jsonObj.has("errcode")) {

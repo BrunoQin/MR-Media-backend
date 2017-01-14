@@ -48,6 +48,9 @@ public class User extends Model {
     @JoinColumn(name = "super_id")
     User superUser;
 
+    @Column(name = "open_id")
+    String openId;
+
     @Column(name = "disable")
     int disable;
 
@@ -119,6 +122,14 @@ public class User extends Model {
 
     public void setSuperUser(User superUser) {
         this.superUser = superUser;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public int getDisable() {
