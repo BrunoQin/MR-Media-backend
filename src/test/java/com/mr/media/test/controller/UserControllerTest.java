@@ -100,9 +100,15 @@ public class UserControllerTest {
 
 
 
-        mockMvc.perform(get("/user/profile")
+       String content= mockMvc.perform(get("/user/profile")
                 .param("token", token)
-        ).andExpect(status().isOk());
+        ).andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+        BaseResp baseResp = new Gson().getAdapter(BaseResp.class).fromJson(content);
+        Assert.assertTrue(baseResp.errCode==BaseResp.SUCCESS);
+
+
 
 
     }
@@ -112,8 +118,8 @@ public class UserControllerTest {
 
         ChangePasswordReq changePasswordReq=new ChangePasswordReq();
         changePasswordReq.oldPassword = "qqq";
-        changePasswordReq.newPassword = "qqqq";
-        changePasswordReq.confirmPassword = "qqqq";
+        changePasswordReq.newPassword = "pd";
+        changePasswordReq.confirmPassword = "pd";
 
 
         String content= mockMvc.perform(post("/user/password/edit")
