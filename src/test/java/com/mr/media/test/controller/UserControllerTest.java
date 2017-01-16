@@ -94,7 +94,7 @@ public class UserControllerTest {
 
     }
 
-    @Test
+   /* @Test
     public void test_0002_profile() throws Exception {
 
 
@@ -111,7 +111,7 @@ public class UserControllerTest {
 
 
 
-    }
+    }*/
     @Test
     public void test_0003_password() throws Exception {
 
