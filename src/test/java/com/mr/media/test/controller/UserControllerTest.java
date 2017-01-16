@@ -105,8 +105,6 @@ public class UserControllerTest {
         ).andExpect(status().isOk());
 
 
-
-
     }
     @Test
     public void test_0003_password() throws Exception {
@@ -114,8 +112,8 @@ public class UserControllerTest {
 
         ChangePasswordReq changePasswordReq=new ChangePasswordReq();
         changePasswordReq.oldPassword = "qqq";
-        changePasswordReq.newPassword = "pd";
-        changePasswordReq.confirmPassword = "pd";
+        changePasswordReq.newPassword = "qqqq";
+        changePasswordReq.confirmPassword = "qqqq";
 
 
         String content= mockMvc.perform(post("/user/password/edit")
@@ -132,7 +130,6 @@ public class UserControllerTest {
     public void test_0002_profile(){
         System.out.println(token);
     }
-
     @Test
     public void test_0003_profile(){
         System.out.println(token);
