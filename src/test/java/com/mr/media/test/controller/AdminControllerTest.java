@@ -75,10 +75,11 @@ public class AdminControllerTest {
        mockMvc.perform(get("/admin/employee/agents")
                 .param("token", token)
         ).andExpect(status().isOk());
+
     }
-    public void test_0002_getPagedActors() throws Exception {
+   /* public void test_0002_getPagedActors() throws Exception {
         mockMvc.perform(get("/admin/employee/actors")
                 .param("token", token)
         ).andExpect(status().isOk());
-    }
+    }*/
 }
