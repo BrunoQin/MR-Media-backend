@@ -38,9 +38,9 @@ public class WeChatHelper {
     String appId;
     @Value("${weChat.appsecret}")
     String appSecret;
-    @Value("${weChat.access_token.public.url")
+    @Value("${weChat.access_token.public.url}")
     String publicUrl;
-    @Value("${weChat.access_token.private.url")
+    @Value("${weChat.access_token.private.url}")
     String privateUrl;
 
     private static final Object publicAccessTokenLock = new Object();
