@@ -94,24 +94,20 @@ public class UserControllerTest {
 
     }
 
-   /* @Test
+    @Test
     public void test_0002_profile() throws Exception {
 
 
 
 
-       String content= mockMvc.perform(get("/user/profile")
+        mockMvc.perform(get("/user/profile")
                 .param("token", token)
-        ).andExpect(status().isOk())
-                .andReturn()
-                .getResponse().getContentAsString();
-        BaseResp baseResp = new Gson().getAdapter(BaseResp.class).fromJson(content);
-        Assert.assertTrue(baseResp.errCode==BaseResp.SUCCESS);
+        ).andExpect(status().isOk());
 
 
 
 
-    }*/
+    }
     @Test
     public void test_0003_password() throws Exception {
 
