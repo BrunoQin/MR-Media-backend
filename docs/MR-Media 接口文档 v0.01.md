@@ -86,9 +86,9 @@ response body: {
 	}, ...],
 }
 ```
-### 2.3 `经纪人`权限添加下线员工
+### 2.3 `管理员`权限添加下线员工
 ```
-url: /agent/add_employee
+url: /admin/add_employee
 method: post
 path variable: token
 request body: {
