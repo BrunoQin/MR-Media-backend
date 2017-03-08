@@ -23,7 +23,7 @@ response body: {
 ```
 url: /agent/register/upload_picture
 method: post, multipart
-path variable: none
+path variable: token
 request body: {
 	"frontPicture", //file
 	"backPicture", //file
@@ -59,7 +59,7 @@ response body: {
 ```
 url: /agent/register/upload_picture
 method: post, multipart
-path variable: none
+path variable: token
 request body: {
 	"picture1", //file
 	"picture2", //file
@@ -83,7 +83,7 @@ response body: {
 	"errCode", //integer
 	"notifications": [{
 		"content", //String
-		"time", //data
+		"time", //date
 		...
 	}, ...] 
 }
@@ -145,6 +145,7 @@ response body: {
 	"pageSize", //integer
 	"totalPage", //integer
 	"reviews": [{
+		"reviewId": //integer
 		"content": //string
 		...
 	}, ...],
@@ -156,6 +157,7 @@ url: /admin/mark_review
 method: post
 path variable: token
 request body: {
+	"reviewId", //integer
 	"action", //integer
 }
 ```
@@ -248,6 +250,7 @@ response body: {
 	"pageSize", //integer
 	"totalPage", //integer
 	"reviews": [{
+		"reviewId": //integer
 		"content": //string
 		...
 	}, ...],
