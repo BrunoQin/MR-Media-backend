@@ -6,6 +6,8 @@ url: /agent/register
 method: post
 path variable: none
 request body: {
+	"token", //String
+	"uid", //String
 	"realName", //String
 	"phoneNumber", //String
 	"weChatNumber", //String
@@ -40,6 +42,8 @@ url: /actor/register
 method: post
 path variable: none
 request body: {
+	"token", //String
+	"uid", //String
 	"realName", //String
 	"talentType", //Integer
 	"phoneNumber", //String
