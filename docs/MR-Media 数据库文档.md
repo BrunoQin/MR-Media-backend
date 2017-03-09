@@ -23,6 +23,7 @@
 | level         | int(11)      | NN       |            | 用户的等级                   |      |
 | super_id      | int(11)      | NN       |            | 上级的id（不是uid), 外键指向user表 |      |
 | disable       | int(11)      | NN       | 0          | 用户是否是不可用的（有可能用户被解雇等）    |      |
+| active        | int(11)      | NN       | 0          | 用户是否审核被通过，0代表未通过，1代表通过              |      |
 | token         | varchar(128) |          | NULL       |                         |      |
 | valid_time    | DATETIME     |          | NULL       | token的有效时间              |      |
 
@@ -47,7 +48,7 @@ location | varchar(128) | NN | | actor视频的url|
 | -------- | ------------ | -------- | ------- | ---------------- | ---- |
 | id       | int(11)      | PK,NN,AI |         | 记录的唯一标示符         |      |
 | owner_id | int(11)      |          |         | 外键指向user表        |      |
-| location | varchar(256) | NN       |         | 用户上传的图片。用;分割多个照片 |      |
+| locations| varchar(256) | NN       |         | 用户上传的图片。用;分割多个照片 |      |
 
 
 ## notifications
@@ -71,11 +72,29 @@ location | varchar(128) | NN | | actor视频的url|
 | Column       | DataType | Attr     | default | Explanation                        |      |
 | ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
 | id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
-| user_id      | int(11)  | NN       |         | 提交审核的用户id，外键指向user表                |      |
+| creator_id   | int(11)  | NN       |         | 提交审核的用户id，外键指向user表                |      |
 | recommend_id | int(11)  | NN       |         | 推荐的用户的id（外键指向user表），如果没有推荐的人，则指向自己 |      |
 | status       | int(11)  | NN       | 0       | 审核状态（0代表未通过）                       |      |
-|              |          |          |         |                                    |      |
-|              |          |          |         |                                    |      |
+
+
+
+
+## authority_group
+`权限表`
+
+| Column       | DataType | Attr     | default | Explanation                        |      |
+| ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
+| id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
+| authority    | int(11)  | NN       |         | 用户属于的权限组                    |      |
+| tab          | int(11)  | NN       |         | 该权限能看到的tab, 外键指向tab表 |     |
+
+## tab
+`侧边栏`
+
+| Column       | DataType | Attr     | default | Explanation                        |      |
+| ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
+| id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
+| name         | varchar(64)  | NN       |         | id对应的tab名称 |     |
 
 
 
