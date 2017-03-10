@@ -37,14 +37,14 @@ public class AgentService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Pair<Integer, String> addEmployee(String token, String username, Integer authority){
+    public Pair<Integer, String> addEmployee(String token, String realname, Integer authority){
         User parentUser = userService.findUserByToken(token);
-        if(StringUtils.isEmpty(username)){
-            return new Pair<>(BaseResp.CREATED_USERNAME_NULL, null);
+        if(StringUtils.isEmpty(realname)){
+            return new Pair<>(BaseResp.CREATED_REALNAME_NULL, null);
         }
-        User childUser = userService.findUserByUsername(username);
+        User childUser = userService.findUserByRealName(realname);
         if(childUser != null){
-            return new Pair<>(BaseResp.CREATED_USERNAME_EXIST, null);
+            return new Pair<>(BaseResp.CREATED_REALNAME_EXIST, null);
         }
         if(authority == null){
             return new Pair<>(BaseResp.CREATED_AUTHORITY_NULL, null);
@@ -61,7 +61,7 @@ public class AgentService {
         try{
             childUser = new User();
             childUser.setUid(uid);
-            childUser.setUsername(username);
+            childUser.setRealName(realname);
             childUser.setPassword(User.DEFAULT_PWD);
             childUser.setAuthority(authority);
             childUser.setLevel(parentUser.getLevel() + 1);
@@ -100,7 +100,7 @@ public class AgentService {
         }
 
         PositionResp.Position position = new PositionResp.Position();
-        position.parent =  new PositionResp.UserNode(parent.getSuperUser().getId(), parent.getSuperUser().getUsername(), 0);
+        position.parent =  new PositionResp.UserNode(parent.getSuperUser().getId(), parent.getSuperUser().getRealName(), 0);
         users.remove(0);
         HashMap<String, Integer> idMap = new HashMap<>();
         for(int i = 0; i< users.size(); i ++){
@@ -109,7 +109,7 @@ public class AgentService {
         position.children = users.stream().map(
                o -> {
                    PositionResp.UserNode userNode = new PositionResp.UserNode();
-                   userNode.username = o.getUsername();
+                   userNode.realName = o.getRealName();
                    userNode.uid = o.getId();
                    Integer idx = idMap.get(String.valueOf(o.getSuperUser().getId()));
                    if(idx == null){

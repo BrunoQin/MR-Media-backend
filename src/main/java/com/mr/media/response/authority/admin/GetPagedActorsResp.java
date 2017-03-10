@@ -11,7 +11,7 @@ public class GetPagedActorsResp extends BaseResp {
 
     public static class Actor{
         public String uid;
-        public String username;
+        public String realName;
     }
 
     public int pageId;

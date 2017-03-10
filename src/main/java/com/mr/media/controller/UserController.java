@@ -54,7 +54,7 @@ public class UserController {
         User user = userService.findUserByToken(token);
         GetProfileResp.Profile profile = new GetProfileResp.Profile();
         profile.uid = user.getUid();
-        profile.username = user.getUsername();
+        profile.realname = user.getRealName();
         return new GetProfileResp(BaseResp.SUCCESS, profile);
 
     }

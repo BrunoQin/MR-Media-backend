@@ -9,7 +9,7 @@ public class GetProfileResp extends BaseResp {
 
     public static class Profile{
         public String uid;
-        public String username;
+        public String realname;
     }
 
     public Profile profile;

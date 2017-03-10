@@ -5,12 +5,12 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Created by i321273 on 1/11/17.
+ * Created by 秦博 on 2017/3/10.
  */
 
 @Entity
-@Table(name = "actor_video")
-public class ActorVideo extends Model {
+@Table(name = "user_uploaded_picture")
+public class UserUploadedPicture extends Model{
 
     @Id
     @Column(name = "id")
@@ -46,4 +46,5 @@ public class ActorVideo extends Model {
     public void setLocation(String location) {
         this.location = location;
     }
+
 }

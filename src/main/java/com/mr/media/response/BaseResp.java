@@ -23,10 +23,10 @@ public class BaseResp {
     public static final int PERMITION_NOT_ALLOW = 9;
 
     // 创建用户名为空
-    public static final int CREATED_USERNAME_NULL = 10;
+    public static final int CREATED_REALNAME_NULL = 10;
 
     // 创建用户名已存在
-    public static final int CREATED_USERNAME_EXIST = 11;
+    public static final int CREATED_REALNAME_EXIST = 11;
 
     // 创建用户权限空
     public static final int CREATED_AUTHORITY_NULL = 12;

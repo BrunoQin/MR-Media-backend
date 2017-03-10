@@ -37,20 +37,20 @@ public class AdminController {
      * 管理员权限查看所有经纪人（分页）
      */
     @RequestMapping(value = "/employee/agents", method = RequestMethod.GET)
-    public BaseResp getPagedAgents(String token, Integer pageId, Integer pageSize, Integer disable, String username){
+    public BaseResp getPagedAgents(String token, Integer pageId, Integer pageSize, Integer disable, String realName){
 
         User user = userService.findUserByToken(token);
         if(user.getAuthority() != User.ADMIN_AUTHORITY){
             return new BaseResp(BaseResp.PERMITION_NOT_ALLOW);
         }
 
-        Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.AGENT_AUTHORITY, disable, username);
+        Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.AGENT_AUTHORITY, disable, realName);
 
         List<GetPagedAgentsResp.Agent> agents = pair.getSecond().stream().map(
                 o -> {
                     GetPagedAgentsResp.Agent agent = new GetPagedAgentsResp.Agent();
                     agent.uid = o.getUid();
-                    agent.username = o.getUsername();
+                    agent.realName = o.getRealName();
                     return agent;
                 }
         ).collect(Collectors.toList());
@@ -63,20 +63,20 @@ public class AdminController {
      * 管理员权限查看所有艺人（分页）
      */
     @RequestMapping(value = "/employee/actors", method = RequestMethod.GET)
-    public BaseResp getPagedActors(String token, Integer pageId, Integer pageSize, Integer disable, String username){
+    public BaseResp getPagedActors(String token, Integer pageId, Integer pageSize, Integer disable, String realName){
 
         User user = userService.findUserByToken(token);
         if(user.getAuthority() != User.ADMIN_AUTHORITY){
             return new BaseResp(BaseResp.PERMITION_NOT_ALLOW);
         }
 
-        Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.ACTOR_AUTHORITY, disable, username);
+        Pair<Integer, List<User>> pair = adminService.getPagedEmployees(pageId, pageSize, User.ACTOR_AUTHORITY, disable, realName);
 
         List<GetPagedActorsResp.Actor> actors = pair.getSecond().stream().map(
                 o -> {
                     GetPagedActorsResp.Actor actor = new GetPagedActorsResp.Actor();
                     actor.uid = o.getUid();
-                    actor.username = o.getUsername();
+                    actor.realName = o.getRealName();
                     return actor;
                 }
         ).collect(Collectors.toList());

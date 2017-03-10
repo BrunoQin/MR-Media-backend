@@ -22,7 +22,7 @@ public class AdminService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer authority, Integer disable, String username){
+    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer authority, Integer disable, String realName){
 
         if(pageId < 0 || pageSize <= 0){
             return new Pair(new BaseResp(BaseResp.WRONG_PAGE_PARAM), null);
@@ -34,8 +34,8 @@ public class AdminService {
         if(disable != null){
             el = el.eq("disable", disable);
         }
-        if(!StringUtils.isEmpty(username)){
-            el = el.contains("username", username);
+        if(!StringUtils.isEmpty(realName)){
+            el = el.contains("real_name", realName);
         }
 
         PagedList<User> pl = el.findPagedList(pageId, pageSize);

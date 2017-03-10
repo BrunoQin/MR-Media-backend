@@ -71,7 +71,7 @@ public class ActorService {
             Boolean result = fileHelper.saveFile(filePath, uploadFile.getBytes());
             if(result){
                 ActorVideo actorVideo = new ActorVideo();
-                actorVideo.setSuperUser(user);
+                actorVideo.setOwner(user);
                 actorVideo.setLocation(filename);
                 actorVideo.save();
                 return new UploadVideoResp(BaseResp.SUCCESS, new UploadVideoResp.Location(filename));
