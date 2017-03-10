@@ -86,7 +86,7 @@ location | varchar(128) | NN | | actor视频的url|
 | ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
 | id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
 | name         | int(11)  | NN       |         | 权限组名字                    |      |
-| authority_ic | int(11)  | NN       |         | 该权限组内涵权限, 外键指向authority表 |     |
+| authority_id | int(11)  | NN       |         | 该权限组内涵权限, 外键指向authority表 |     |
 
 ## authority
 `权限\侧边栏`
