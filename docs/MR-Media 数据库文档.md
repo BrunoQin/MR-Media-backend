@@ -85,16 +85,16 @@ location | varchar(128) | NN | | actor视频的url|
 | Column       | DataType | Attr     | default | Explanation                        |      |
 | ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
 | id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
-| authority    | int(11)  | NN       |         | 用户属于的权限组                    |      |
-| tab          | int(11)  | NN       |         | 该权限能看到的tab, 外键指向tab表 |     |
+| name         | int(11)  | NN       |         | 权限组名字                    |      |
+| authority_ic | int(11)  | NN       |         | 该权限组内涵权限, 外键指向authority表 |     |
 
-## tab
-`侧边栏`
+## authority
+`权限\侧边栏`
 
 | Column       | DataType | Attr     | default | Explanation                        |      |
 | ------------ | -------- | -------- | ------- | ---------------------------------- | ---- |
 | id           | int(11)  | PK,NN,AI |         | 记录的唯一标示符                           |      |
-| name         | varchar(64)  | NN       |         | id对应的tab名称 |     |
+| name         | varchar(64)  | NN       |         | id对应的authority名称 |     |
 
 
 
