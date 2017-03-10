@@ -40,7 +40,7 @@ owner_id | int(11) | | |外键指向user表 |
 location | varchar(128) | NN | | actor视频的url|
 
 
-## user_uploaded_pictures
+## user_uploaded_picture
 
 `记录用户上传的图片的位置`
 
@@ -51,7 +51,7 @@ location | varchar(128) | NN | | actor视频的url|
 | locations| varchar(256) | NN       |         | 用户上传的图片。用;分割多个照片 |      |
 
 
-## notifications
+## notification
 
 `消息表`
 
@@ -66,7 +66,7 @@ location | varchar(128) | NN | | actor视频的url|
 | status       | int(11)      | NN       | 0       |  消息状态,0代表未读,1代表已读      |      |
 
 
-## reviews
+## review
 `审核表`
 
 | Column       | DataType | Attr     | default | Explanation                        |      |
