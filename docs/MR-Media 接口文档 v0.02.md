@@ -2,7 +2,7 @@
 ## 0.微信验证
 ### 0.1 微信签名验证
 ```
-url: /WeChat/check_signature
+url: /weChat/check_signature
 method: get
 path variable: signature, timestamp, nonce, echostr
 ```

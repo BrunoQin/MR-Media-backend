@@ -1,5 +1,7 @@
 package com.mr.media.service;
 
+import com.mr.media.model.User;
+import com.mr.media.response.BaseResp;
 import com.mr.media.util.WeChatHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,22 @@ public class WeChatService {
             return false;
         }
 
+    }
+
+    public String getOpenIdByCode(String code){
+        String openId = weChatHelper.getOpenIdByCode(code);
+        return openId;
+    }
+
+    public int bindUserWithOpenId(User user, String openId){
+        user.setOpenId(openId);
+        try {
+            user.save();
+            return BaseResp.SUCCESS;
+        } catch (Exception e) {
+            logger.error("绑定用户失败", e);
+            return BaseResp.UNKNOWN;
+        }
     }
 
 }

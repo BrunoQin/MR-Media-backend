@@ -35,6 +35,12 @@ public class UserService {
                 .findUnique();
     }
 
+    public User findUserByOpenId(String openId){
+        return Ebean.find(User.class).where()
+                .eq("open_id", openId)
+                .findUnique();
+    }
+
     public int login(String uid, String password){
 
         User user = Ebean.find(User.class).where()
