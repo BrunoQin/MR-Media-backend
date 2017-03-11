@@ -108,15 +108,16 @@ DROP TABLE IF EXISTS `notification`;
 CREATE TABLE `notification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sender` int(11) NOT NULL,
-  `reciever` int(11) NOT NULL,
+  `receiver` int(11) NOT NULL,
   `text_content` varchar(256) NOT NULL,
   `link` varchar(256) DEFAULT NULL,
   `pictures_url` varchar(256) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `when_created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sender_idx` (`sender`),
-  KEY `reciever_idx` (`reciever`),
-  CONSTRAINT `reciever` FOREIGN KEY (`reciever`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `reciever_idx` (`receiver`),
+  CONSTRAINT `reciever` FOREIGN KEY (`receiver`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `sender` FOREIGN KEY (`sender`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -142,6 +143,8 @@ CREATE TABLE `review` (
   `creator_id` int(11) NOT NULL,
   `recommend_id` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `text_content` varchar(256) NOT NULL,
+  `action` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `creator_id_idx` (`creator_id`),
   KEY `recommend_id_idx` (`recommend_id`),
@@ -190,7 +193,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `super_id_uid_fk_idx` (`super_id`),
   CONSTRAINT `super_id_uid_fk` FOREIGN KEY (`super_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +202,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd',0,0,1,0,'1a4696ff16357ebadddf6cb79a84c1ed','2017-04-09 21:37:26',NULL,NULL,'000',0,NULL,NULL,NULL,0,0);
+INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd',0,0,1,0,'9f4363087c1292187de14cee06cbe1eb','2017-04-10 16:11:56',NULL,NULL,'000',0,NULL,NULL,NULL,0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-10 21:43:00
+-- Dump completed on 2017-03-11 16:14:23

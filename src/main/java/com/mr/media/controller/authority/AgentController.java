@@ -1,6 +1,8 @@
 package com.mr.media.controller.authority;
 
+import com.avaje.ebeaninternal.server.deploy.generatedproperty.GeneratedInsertJavaTime;
 import com.mr.media.request.authority.agent.AddEmployeeReq;
+import com.mr.media.request.authority.agent.AgentRegisterReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.agent.AddEmployeeResp;
 import com.mr.media.response.authority.agent.PositionResp;
@@ -40,6 +42,14 @@ public class AgentController {
     public BaseResp showAgentPosition(String token){
         Pair<Integer, PositionResp.Position> pair = agentService.getUserPosition(token);
         return new PositionResp(pair.getFirst(), pair.getSecond());
+    }
+
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public BaseResp agentRegister(@RequestBody AgentRegisterReq agentRegisterReq){
+
+        int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.settleType, agentRegisterReq.settleAccount);
+        return new BaseResp(errCode);
+
     }
 
 }

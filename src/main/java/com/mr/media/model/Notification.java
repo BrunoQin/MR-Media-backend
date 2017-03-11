@@ -3,6 +3,7 @@ package com.mr.media.model;
 import com.avaje.ebean.Model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by 秦博 on 2017/3/10.
@@ -11,6 +12,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "notification")
 public class Notification extends Model{
+
+    public static final int READ_NOTIFICATION = 0;
+    public static final int UNREAD_NOTIFICATION = 1;
 
     @Id
     @Column(name = "id")
@@ -22,7 +26,7 @@ public class Notification extends Model{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    User reciever;
+    User receiver;
 
     @Column(name = "text_content")
     String textContent;
@@ -35,6 +39,9 @@ public class Notification extends Model{
 
     @Column(name = "status")
     int status;
+
+    @Column(name = "when_created")
+    Date whenCreated;
 
     public int getId() {
         return id;
@@ -52,12 +59,12 @@ public class Notification extends Model{
         this.sender = sender;
     }
 
-    public User getReciever() {
-        return reciever;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setReciever(User reciever) {
-        this.reciever = reciever;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public String getTextContent() {
@@ -90,5 +97,13 @@ public class Notification extends Model{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Date getWhenCreated() {
+        return whenCreated;
+    }
+
+    public void setWhenCreated(Date whenCreated) {
+        this.whenCreated = whenCreated;
     }
 }

@@ -1,12 +1,11 @@
 # MR-Media 接口文档 v0.03
 ## 1.网站首页相关
-### 1.1 经纪人自行注册
+### 1.1* 经纪人自行注册
 ```
 url: /agent/register
 method: post
 path variable: none
 request body: {
-	"token", //String
 	"uid", //String
 	"realName", //String
 	"phoneNumber", //String
@@ -36,13 +35,12 @@ response body: {
 	"errCode", //integer
 }
 ```
-### 1.3 艺人自行注册
+### 1.3* 艺人自行注册
 ```
 url: /actor/register
 method: post
 path variable: none
 request body: {
-	"token", //String
 	"uid", //String
 	"realName", //String
 	"talentType", //Integer
@@ -76,25 +74,28 @@ response body: {
 }
 ```
 ## 2.后台管理网站相关
-### 2.1 员工获取所有通知（已读/未读）
+### 2.1* 员工获取所有通知（分页，已读/未读）
 ```
-url: /user/notifications
+url: /notification/get_related_notifications
 method: get
-path variable: token, status
+path variable: token, pageId, pageSize, status
 ```
 ```
 response body: {
 	"errCode", //integer
+	"pageId", //integer
+	"pageSize", //integer
+	"totalPage", //integer
 	"notifications": [{
 		"content", //String
 		"time", //date
 		...
-	}, ...] 
+	}, ...]
 }
 ```
-### 2.2 员工将通知标为已读/未读
+### 2.2* 员工将通知标为已读/未读
 ```
-url: /user/mark_notification
+url: /notification/mark_notification
 method: post
 path variable: token
 request body: {
@@ -136,11 +137,11 @@ response body: {
 	"errCode", //integer
 }
 ```
-### 2.5 `管理员`权限查看所有审核（分页，经纪人/艺人，已处理/未处理）
+### 2.5* `管理员`权限查看所有审核（分页，已处理/未处理）
 ```
-url: /admin/reviews
+url: /review/get_reviews
 method: get
-path variable: token, pageId, pageSize, *authority, *status
+path variable: token, pageId, pageSize, *status
 ```
 ```
 response body: {
@@ -155,7 +156,7 @@ response body: {
 	}, ...],
 }
 ```
-### 2.6 `管理员`权限处理审核（通过/拒绝/删除）
+### 2.6* `管理员`权限处理审核（通过/拒绝/删除）
 ```
 url: /admin/mark_review
 method: post

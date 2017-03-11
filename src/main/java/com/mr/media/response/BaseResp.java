@@ -46,6 +46,27 @@ public class BaseResp {
     // 用户微信绑定失败
     public static final int USER_WECHAT_BINDING_ERROR = 17;
 
+    // 管理员自行注册uid重复吗
+    public static final int AGENT_REGISTER_EXIST_UID = 18;
+
+    // 查看通知列表状态错误
+    public static final int GET_NOTIFICATION_WRONG_STATUS = 19;
+
+    // 更改通知状态状态码相同
+    public static final int MARK_NOTIFICATION_SAME_STATUS = 20;
+
+    // 操作权限不足
+    public static final int PERMISSION_DENIED = 21;
+
+    // 查看通知列表状态错误
+    public static final int GET_REVIEWS_WRONG_STATUS = 22;
+
+    // 标记审核未找到
+    public static final int MARK_REVIEW_NO_RESULT = 23;
+
+    // 标记审核类型错误
+    public static final int MARK_REVIEW_WRONG_TYPE = 24;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 

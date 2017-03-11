@@ -124,4 +124,37 @@ public class AgentService {
 
         return new Pair<>(BaseResp.SUCCESS, position);
     }
+
+    public int agentRegister(String uid, String realName, String phoneNumber, String weChatNumber, String email, Integer settleType, String settleAccount){
+
+        User user = userService.findUserByUid(uid);
+        if(user != null) {
+            return BaseResp.AGENT_REGISTER_EXIST_UID;
+        }
+        // 创建通知以及审核×××××待完成
+        // 找到超级管理员，以后要改
+        User superAdmin = userService.findUserByUid("ddd");
+
+        user = new User();
+        user.setUid(uid);
+        user.setRealName(realName);
+        user.setPhoneNumber(phoneNumber);
+        user.setWechatNumber(weChatNumber);
+        user.setEmail(email);
+        user.setSettleType(settleType);
+        user.setSettleAccount(settleAccount);
+        user.setAuthority(1);
+        user.setLevel(1);
+        user.setSuperUser(superAdmin);
+
+        try{
+            user.save();
+            return BaseResp.SUCCESS;
+        } catch (Exception e) {
+            logger.error("failed to register agent", e);
+            return BaseResp.UNKNOWN;
+        }
+
+    }
+
 }
