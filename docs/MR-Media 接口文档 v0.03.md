@@ -226,12 +226,9 @@ response body: {
 ```
 ### 2.10 用户查看下属员工详细情况（经纪人/艺人）
 ```
-url: /user/sub_employee/detail
-method: post
+url: /user/sub_employee/<uid>
+method: get
 path variable: token
-request body: {
-	"uid", //String
-}
 ```
 ```
 response body: {
