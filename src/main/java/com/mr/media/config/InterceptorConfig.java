@@ -18,7 +18,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 .addPathPatterns("/user/**",
                         "/admin/**", "/agent/**", "/actor/**")
                 .excludePathPatterns("/user/login",
-                        "/WeChat/**");
+                        "/WeChat/**", "/agent/register");
 
         super.addInterceptors(registry);
     }
