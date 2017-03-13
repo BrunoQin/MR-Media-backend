@@ -11,10 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by i321273 on 1/5/17.
@@ -54,7 +50,7 @@ public class UserController {
         User user = userService.findUserByToken(token);
         GetProfileResp.Profile profile = new GetProfileResp.Profile();
         profile.uid = user.getUid();
-        profile.username = user.getUsername();
+        profile.realname = user.getRealName();
         return new GetProfileResp(BaseResp.SUCCESS, profile);
 
     }

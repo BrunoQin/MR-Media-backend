@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `mr_media`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mr_media` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `mr_media`;
+
+--
 -- Table structure for table `actor_video`
 --
 
@@ -33,6 +41,15 @@ CREATE TABLE `actor_video` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `actor_video`
+--
+
+LOCK TABLES `actor_video` WRITE;
+/*!40000 ALTER TABLE `actor_video` DISABLE KEYS */;
+/*!40000 ALTER TABLE `actor_video` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `authority`
 --
 
@@ -45,6 +62,15 @@ CREATE TABLE `authority` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `authority`
+--
+
+LOCK TABLES `authority` WRITE;
+/*!40000 ALTER TABLE `authority` DISABLE KEYS */;
+/*!40000 ALTER TABLE `authority` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `authority_group`
@@ -64,6 +90,15 @@ CREATE TABLE `authority_group` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `authority_group`
+--
+
+LOCK TABLES `authority_group` WRITE;
+/*!40000 ALTER TABLE `authority_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `authority_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `notification`
 --
 
@@ -73,18 +108,28 @@ DROP TABLE IF EXISTS `notification`;
 CREATE TABLE `notification` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sender` int(11) NOT NULL,
-  `reciever` int(11) NOT NULL,
+  `receiver` int(11) NOT NULL,
   `text_content` varchar(256) NOT NULL,
   `link` varchar(256) DEFAULT NULL,
   `pictures_url` varchar(256) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `when_created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sender_idx` (`sender`),
-  KEY `reciever_idx` (`reciever`),
-  CONSTRAINT `reciever` FOREIGN KEY (`reciever`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `reciever_idx` (`receiver`),
+  CONSTRAINT `reciever` FOREIGN KEY (`receiver`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `sender` FOREIGN KEY (`sender`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notification`
+--
+
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `review`
@@ -98,6 +143,8 @@ CREATE TABLE `review` (
   `creator_id` int(11) NOT NULL,
   `recommend_id` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
+  `text_content` varchar(256) NOT NULL,
+  `action` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `creator_id_idx` (`creator_id`),
   KEY `recommend_id_idx` (`recommend_id`),
@@ -105,6 +152,15 @@ CREATE TABLE `review` (
   CONSTRAINT `recommend_id` FOREIGN KEY (`recommend_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `review`
+--
+
+LOCK TABLES `review` WRITE;
+/*!40000 ALTER TABLE `review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `review` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -126,18 +182,29 @@ CREATE TABLE `user` (
   `token` varchar(128) DEFAULT NULL,
   `valid_time` datetime DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
-  `talent_type` int(11) DEFAULT NULL,
   `location` varchar(64) DEFAULT NULL,
-  `settle_type` int(11) DEFAULT NULL,
-  `settle_account` varchar(64) DEFAULT NULL,
+  `settle_account` varchar(64) NOT NULL,
   `active` int(11) NOT NULL DEFAULT '0',
+  `open_id` varchar(128) DEFAULT NULL,
   `wechat_number` varchar(64) DEFAULT NULL,
   `phone_number` varchar(64) DEFAULT NULL,
+  `talent_type` int(11) DEFAULT NULL,
+  `settle_type` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `super_id_uid_fk_idx` (`super_id`),
   CONSTRAINT `super_id_uid_fk` FOREIGN KEY (`super_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd',0,0,1,0,'9f4363087c1292187de14cee06cbe1eb','2017-04-10 16:11:56',NULL,NULL,'000',0,NULL,NULL,NULL,0,0);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user_uploaded_picture`
@@ -157,7 +224,16 @@ CREATE TABLE `user_uploaded_picture` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping events for database 'mr_media'
+-- Dumping data for table `user_uploaded_picture`
+--
+
+LOCK TABLES `user_uploaded_picture` WRITE;
+/*!40000 ALTER TABLE `user_uploaded_picture` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_uploaded_picture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'mr_media'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -169,4 +245,4 @@ CREATE TABLE `user_uploaded_picture` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-10 16:44:04
+-- Dump completed on 2017-03-11 16:14:23

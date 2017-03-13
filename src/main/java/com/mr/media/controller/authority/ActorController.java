@@ -1,5 +1,6 @@
 package com.mr.media.controller.authority;
 
+import com.mr.media.request.authority.actor.ActorRegisterReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.actor.UploadAvatarResp;
 import com.mr.media.response.authority.actor.UploadVideoResp;
@@ -35,4 +36,11 @@ public class ActorController {
         UploadVideoResp resp = actorService.uploadVideo(token, file);
         return resp;
     }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public BaseResp actorRegister(@RequestBody ActorRegisterReq actorRegisterReq){
+        int errCode = actorService.actorRegister(actorRegisterReq.uid, actorRegisterReq.realName, actorRegisterReq.talentType, actorRegisterReq.phoneNumber, actorRegisterReq.weChatNumber, actorRegisterReq.email, actorRegisterReq.location, actorRegisterReq.settleType, actorRegisterReq.settleAccount);
+        return new BaseResp(errCode);
+    }
+
 }

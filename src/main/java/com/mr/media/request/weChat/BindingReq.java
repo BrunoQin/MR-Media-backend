@@ -5,7 +5,7 @@ package com.mr.media.request.weChat;
  */
 public class BindingReq {
 
-    public String username;
+    public String realName;
     public String password;
     public String openId;
 

@@ -11,7 +11,7 @@ public class GetPagedAgentsResp extends BaseResp {
 
     public static class Agent{
         public String uid;
-        public String username;
+        public String realName;
     }
 
     public int pageId;

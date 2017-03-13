@@ -17,9 +17,9 @@ public class UserService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public User findUserByUsername(String username){
+    public User findUserByRealName(String realName){
         return Ebean.find(User.class).where()
-                .eq("username", username)
+                .eq("real_name", realName)
                 .findUnique();
     }
 
@@ -88,6 +88,5 @@ public class UserService {
             return BaseResp.UNKNOWN;
         }
     }
-
 
 }

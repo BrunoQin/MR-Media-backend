@@ -61,9 +61,9 @@ public class WeChatController {
     @RequestMapping(value = "/binding", method = RequestMethod.POST)
     public BaseResp binding(@RequestBody BindingReq bindingReq){
 
-        int errCode = userService.login(bindingReq.username, bindingReq.password);
+        int errCode = userService.login(bindingReq.realName, bindingReq.password);
         if(errCode == BaseResp.SUCCESS){
-            User user = userService.findUserByUsername(bindingReq.username);
+            User user = userService.findUserByRealName(bindingReq.realName);
             int result = weChatService.bindUserWithOpenId(user, bindingReq.openId);
             if(result == BaseResp.SUCCESS){
                 return new BaseResp(BaseResp.SUCCESS);

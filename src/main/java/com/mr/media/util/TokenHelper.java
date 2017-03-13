@@ -12,10 +12,10 @@ public class TokenHelper {
     /**
      * 为用户生成新的令牌
      */
-    public static String newToken(String username) {
+    public static String newToken(String realName) {
         // 将用户名和当前时间拼接起来，取md5值，作为新的token
         String now = DateHelper.getTimestamp(new Date());
-        String seed = username + now;
+        String seed = realName + now;
         return DigestUtils.md5DigestAsHex(seed.getBytes());
     }
 

@@ -20,11 +20,11 @@ public class PositionResp extends BaseResp {
 
     public static class UserNode {
         public long uid;
-        public String username;
+        public String realName;
         public int positionIndex;
-        public UserNode(long uid, String username, int positionIndex){
+        public UserNode(long uid, String realName, int positionIndex){
             this.uid = uid;
-            this.username = username;
+            this.realName = realName;
             this.positionIndex = positionIndex;
         }
         public UserNode(){
