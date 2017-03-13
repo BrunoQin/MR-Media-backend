@@ -28,20 +28,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Created by i321273 on 1/11/17.
+ * Created by tonyP on 2017/1/15.
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
-public class UserControllerTest {
-
+public class AdminControllerTest {
     private MockMvc mockMvc;
     private static String token;
     private static User user;
     private static UserService userservice;
-
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -56,9 +53,9 @@ public class UserControllerTest {
             userservice = new UserService();
             User parent = userservice.findUserByUid("ddd");
             user = new User();
-            user.setUid("qqq");
-            user.setUsername("qqq");
-            user.setPassword("qqq");
+            user.setUid("pd");
+            user.setUsername("kkk");
+            user.setPassword("kkk");
             user.setAuthority(1);
             user.setLevel(1);
             user.setSuperUser(parent);
@@ -73,66 +70,16 @@ public class UserControllerTest {
     public static void tearDownOnce(){
         user.delete();
     }
-
     @Test
-    public void test_0001_login() throws Exception {
-
-        LoginReq loginReq = new LoginReq();
-        loginReq.uid = "qqq";
-        loginReq.password = "qqq";
-
-        String content = mockMvc.perform(post("/user/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(loginReq))
-        ).andExpect(status().isOk())
-                .andReturn()
-                .getResponse().getContentAsString();
-
-        LoginResp loginResp = new Gson().getAdapter(LoginResp.class).fromJson(content);
-        Assert.assertTrue(loginResp.errCode == BaseResp.SUCCESS);
-        this.token = loginResp.token;
-
-    }
-
-    @Test
-    public void test_0002_profile() throws Exception {
-
-
-
-
-        mockMvc.perform(get("/user/profile")
+    public void test_0001_getPagedAgents() throws Exception {
+       mockMvc.perform(get("/admin/employee/agents")
                 .param("token", token)
         ).andExpect(status().isOk());
 
-
     }
-    @Test
-    public void test_0003_password() throws Exception {
-
-
-        ChangePasswordReq changePasswordReq=new ChangePasswordReq();
-        changePasswordReq.oldPassword = "qqq";
-        changePasswordReq.newPassword = "qqqq";
-        changePasswordReq.confirmPassword = "qqqq";
-
-
-        String content= mockMvc.perform(post("/user/password/edit")
+   /* public void test_0002_getPagedActors() throws Exception {
+        mockMvc.perform(get("/admin/employee/actors")
                 .param("token", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(changePasswordReq))
-        ).andExpect(status().isOk())
-                .andReturn()
-                .getResponse().getContentAsString();
-        BaseResp baseResp = new Gson().getAdapter(BaseResp.class).fromJson(content);
-        Assert.assertTrue(baseResp.errCode==BaseResp.SUCCESS);
-    }
-    /*@Test
-    public void test_0002_profile(){
-        System.out.println(token);
-    }
-    @Test
-    public void test_0003_profile(){
-        System.out.println(token);
+        ).andExpect(status().isOk());
     }*/
-
 }

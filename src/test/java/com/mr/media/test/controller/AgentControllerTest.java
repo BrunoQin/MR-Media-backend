@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.mr.media.Application;
 import com.mr.media.model.User;
 import com.mr.media.request.BaseReq;
+import com.mr.media.request.authority.agent.AddEmployeeReq;
 import com.mr.media.request.user.ChangePasswordReq;
 import com.mr.media.request.user.LoginReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.authority.agent.AddEmployeeResp;
 import com.mr.media.response.user.LoginResp;
 import com.mr.media.service.UserService;
 
@@ -27,16 +29,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 /**
- * Created by i321273 on 1/11/17.
+ * Created by tonyP on 2017/1/15.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @WebAppConfiguration
-public class UserControllerTest {
-
+public class AgentControllerTest {
     private MockMvc mockMvc;
     private static String token;
     private static User user;
@@ -59,7 +61,7 @@ public class UserControllerTest {
             user.setUid("qqq");
             user.setUsername("qqq");
             user.setPassword("qqq");
-            user.setAuthority(1);
+            user.setAuthority(2);
             user.setLevel(1);
             user.setSuperUser(parent);
             user.setDisable(User.USER_ACTIVE);
@@ -70,10 +72,10 @@ public class UserControllerTest {
     }
 
     @AfterClass
-    public static void tearDownOnce(){
-        user.delete();
+   public static void tearDownOnce(){
+       user.delete();
+       //userservice.findUserByUid("pd").delete();
     }
-
     @Test
     public void test_0001_login() throws Exception {
 
@@ -93,46 +95,27 @@ public class UserControllerTest {
         this.token = loginResp.token;
 
     }
-
-    @Test
-    public void test_0002_profile() throws Exception {
-
-
-
-
-        mockMvc.perform(get("/user/profile")
-                .param("token", token)
-        ).andExpect(status().isOk());
-
-
-    }
-    @Test
-    public void test_0003_password() throws Exception {
-
-
-        ChangePasswordReq changePasswordReq=new ChangePasswordReq();
-        changePasswordReq.oldPassword = "qqq";
-        changePasswordReq.newPassword = "qqqq";
-        changePasswordReq.confirmPassword = "qqqq";
-
-
-        String content= mockMvc.perform(post("/user/password/edit")
+    public void test_0002_add_employee() throws Exception {
+        AddEmployeeReq addEmployeeReq=new AddEmployeeReq();
+        addEmployeeReq.username = "pd";
+        addEmployeeReq.authority = 3;
+        String content= mockMvc.perform(post("/agent/add_employee")
                 .param("token", token)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson(changePasswordReq))
+                .content(new Gson().toJson(addEmployeeReq))
         ).andExpect(status().isOk())
                 .andReturn()
                 .getResponse().getContentAsString();
-        BaseResp baseResp = new Gson().getAdapter(BaseResp.class).fromJson(content);
-        Assert.assertTrue(baseResp.errCode==BaseResp.SUCCESS);
-    }
-    /*@Test
-    public void test_0002_profile(){
-        System.out.println(token);
-    }
+        AddEmployeeResp addEmployeeResp = new Gson().getAdapter(AddEmployeeResp.class).fromJson(content);
+        Assert.assertTrue(addEmployeeResp.errCode == BaseResp.SUCCESS);
+   }
     @Test
-    public void test_0003_profile(){
-        System.out.println(token);
-    }*/
+    public void test_0002_showAgentPosition() throws Exception
+    {
+        mockMvc.perform(get("/agent/position")
+                .param("token", token)
+        ).andExpect(status().isOk());
+    }
+
 
 }
