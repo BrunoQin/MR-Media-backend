@@ -1,12 +1,17 @@
 package com.mr.media.service;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.PagedList;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.user.SubEmployeeDetailResp;
+import com.mr.media.response.user.SubEmployeesResp;
 import com.mr.media.util.TokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by i321273 on 1/5/17.
@@ -89,4 +94,25 @@ public class UserService {
         }
     }
 
+    public SubEmployeesResp lookUpSubEmployees(String token, Integer pageId, Integer pageSize) {
+        User user = findUserByToken(token);
+        PagedList<User> pl =  Ebean.find(User.class).findPagedList(pageId, pageSize);
+        int totalPage = pl.getTotalPageCount();
+        return new SubEmployeesResp(0, pageId, pageSize, totalPage, pl.getList());
+    }
+
+    public SubEmployeeDetailResp getSubEmployeeDetail(String token, String uid) {
+        User employee = findUserByUid(uid);
+        if(employee == null) return new SubEmployeeDetailResp(BaseResp.USER_IS_NOT_EXIST, null);
+        User inspector = findUserByToken(token);
+        if(employee.getUid().equals(inspector.getUid())) return new SubEmployeeDetailResp(BaseResp.SUCCESS, employee);
+        User parent = employee.getSuperUser();
+        // 向上递归搜索
+        while(true){
+            if(parent == null) break;
+            if(inspector.getUid().equals(parent.getUid())) return new SubEmployeeDetailResp(BaseResp.SUCCESS, employee);
+            parent = parent.getSuperUser();
+        }
+        return new SubEmployeeDetailResp(BaseResp.PERMISSION_DENIED, null);
+    }
 }

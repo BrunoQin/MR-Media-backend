@@ -4,7 +4,10 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Query;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.authority.actor.UploadAvatarResp;
 import com.mr.media.response.authority.agent.PositionResp;
+import com.mr.media.response.authority.agent.UploadPictureResp;
+import com.mr.media.service.UploadService;
 import com.mr.media.service.UserService;
 import com.mr.media.tool.Pair;
 import com.mr.media.util.UidHelper;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +39,18 @@ public class AgentService {
     @Autowired
     UidHelper uidHelper;
 
+    @Autowired
+    UploadService uploadService;
+
     final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public UploadAvatarResp upLoadAvatar(String token, MultipartFile uploadFile){
+        return uploadService.upLoadAvatar(token, uploadFile);
+    }
+
+    public UploadPictureResp upLoadPicture(String token, MultipartFile multipartFile){
+        return uploadService.UploadPicture(token, multipartFile);
+    }
 
     public Pair<Integer, String> addEmployee(String token, String realname, Integer authority){
         User parentUser = userService.findUserByToken(token);
@@ -157,4 +172,12 @@ public class AgentService {
 
     }
 
+    public UploadPictureResp uploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture) {
+        UploadPictureResp result1 = upLoadPicture(token, frontPicture);
+        UploadPictureResp result2 = upLoadPicture(token, backPicture);
+        int error = 0;
+        if(result1.errCode != BaseResp.SUCCESS) error = result1.errCode;
+        if(result2.errCode != BaseResp.SUCCESS) error = result2.errCode;
+        return new UploadPictureResp(error);
+    }
 }

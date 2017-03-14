@@ -1,6 +1,5 @@
 package com.mr.media.controller.authority;
 
-import com.avaje.ebeaninternal.server.deploy.generatedproperty.GeneratedInsertJavaTime;
 import com.mr.media.request.authority.agent.AddEmployeeReq;
 import com.mr.media.request.authority.agent.AgentRegisterReq;
 import com.mr.media.response.BaseResp;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by i321273 on 1/6/17.
@@ -29,6 +29,7 @@ public class AgentController {
 
     @Autowired
     AgentService agentService;
+
 
     @RequestMapping(value = "/add_employee", method = RequestMethod.POST)
     public BaseResp addEmployee(String token, @RequestBody AddEmployeeReq addEmployeeReq){
@@ -50,6 +51,11 @@ public class AgentController {
         int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.settleType, agentRegisterReq.settleAccount);
         return new BaseResp(errCode);
 
+    }
+
+    @RequestMapping(value = "register/upload_picture", method = RequestMethod.POST)
+    public BaseResp agentUploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture){
+        return agentService.uploadPictures(token, frontPicture, backPicture);
     }
 
 }
