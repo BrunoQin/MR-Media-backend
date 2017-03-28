@@ -123,20 +123,19 @@ response body: {
 	"errCode", //integer
 }
 ```
-### 2.4 `管理员`权限删除员工
+
+### 2.4 删除下属经纪人或者艺人
 ```
-url: /admin/delete_employee
+url: /user/employee/delete/<uid>
 method: post
 path variable: token
-request body: {
-	"uid", //String
-}
 ```
 ```
 response body: {
 	"errCode", //integer
 }
 ```
+
 ### 2.5* `管理员`权限查看所有审核（分页，已处理/未处理）
 ```
 url: /review/get_reviews
@@ -212,6 +211,7 @@ url: /user/sub_employees
 method: get
 path variable: token, pageId, pageSize, *authority
 ```
+		authority不选择则显示所有的经纪人和艺人
 ```
 response body: {
 	"errCode", //integer
@@ -224,19 +224,24 @@ response body: {
 	}, ...],
 }
 ```
-### 2.10 用户查看下属员工详细情况（经纪人/艺人）
+
+### 2.9 用户查看下属员工（分页，经纪人/艺人）
 ```
-url: /user/sub_employee/<uid>
+url: /user/sub_employees
 method: get
-path variable: token
+path variable: token, pageId, pageSize, *authority
 ```
+		authority不选择则显示所有的经纪人和艺人
 ```
 response body: {
 	"errCode", //integer
-	"info": {
-		"uid", //String
-		"name", //String
-	}
+	"pageId", //integer
+	"pageSize", //integer
+	"totalPage", //integer
+	"subEmployees": [{
+		"uid": //string
+		...
+	}, ...],
 }
 ```
 ### 2.11 `经纪人`权限查看提交审核情况列表（分页，经纪人/艺人，已处理/未处理）
@@ -256,5 +261,57 @@ response body: {
 		"content": //string
 		...
 	}, ...],
+}
+```
+
+### 2.12 经纪人修改个人信息
+
+```
+url: /user/agent/edit/<uid>
+method: post
+path variable: token
+request body {
+	"realName" //String
+	"superUser": // String(uid)
+	"phoneNumber": //String
+	"settleType": Interger
+	"settleAccount": String
+	"weChatNumber": String 
+	"note": String
+}
+```
+```
+response body: {
+	"errCode", //integer
+	"user": {
+	...
+	}
+}
+```
+
+### 2.12 艺人修改个人信息
+
+```
+url: /user/actor/edit/<uid>
+method: post
+path variable: token
+request body {
+	"realName" //String
+	"superUser": // String(uid)
+	"phoneNumber": //String
+	"settleType": Interger
+	"talentType": Integer
+	"location":// String
+	"settleAccount": String
+	"weChatNumber": String 
+	"note": String
+}
+```
+```
+response body: {
+	"errCode", //integer
+	"user": {
+	...
+	}
 }
 ```
