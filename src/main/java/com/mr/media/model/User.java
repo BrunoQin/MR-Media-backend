@@ -22,6 +22,9 @@ public class User extends Model {
     public final static Integer USER_ACTIVE = 0;
     public final static Integer USER_DEACTIVE = 1;
 
+    public final static Integer ACTOR_ONLINE = 0;
+    public final static Integer ACTOR_OFFLINE = 1;
+
     @Id
     @Column(name = "id")
     int id;
@@ -83,6 +86,9 @@ public class User extends Model {
 
     @Column(name = "phone_number")
     String phoneNumber;
+
+    @Column(name = "id_number")
+    String idNumber;
 
     public long getId() {
         return id;
@@ -242,5 +248,13 @@ public class User extends Model {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 }

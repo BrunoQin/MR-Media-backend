@@ -12,6 +12,13 @@ public class GetPagedActorsResp extends BaseResp {
     public static class Actor{
         public String uid;
         public String realName;
+        public Integer active;
+        public String tel;
+        public String weChat;
+        public Integer level;
+        public String parentName;
+        public String idNumber;
+        public String location;
     }
 
     public int pageId;

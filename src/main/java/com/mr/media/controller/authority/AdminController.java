@@ -51,6 +51,11 @@ public class AdminController {
                     GetPagedAgentsResp.Agent agent = new GetPagedAgentsResp.Agent();
                     agent.uid = o.getUid();
                     agent.realName = o.getRealName();
+                    agent.level = o.getLevel();
+                    agent.parentName = o.getSuperUser().getRealName();
+                    agent.subNumber = adminService.getSubActorsNumber(o.getUid());
+                    agent.tel = o.getPhoneNumber();
+                    agent.weChat = o.getWechatNumber();
                     return agent;
                 }
         ).collect(Collectors.toList());
@@ -77,6 +82,13 @@ public class AdminController {
                     GetPagedActorsResp.Actor actor = new GetPagedActorsResp.Actor();
                     actor.uid = o.getUid();
                     actor.realName = o.getRealName();
+                    actor.idNumber = o.getIdNumber();
+                    actor.tel = o.getPhoneNumber();
+                    actor.weChat = o.getWechatNumber();
+                    actor.active = o.getActive();
+                    actor.level = o.getLevel();
+                    actor.location = o.getLocation();
+                    actor.parentName = o.getSuperUser().getRealName();
                     return actor;
                 }
         ).collect(Collectors.toList());

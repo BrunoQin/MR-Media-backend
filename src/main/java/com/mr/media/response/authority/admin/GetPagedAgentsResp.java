@@ -12,6 +12,11 @@ public class GetPagedAgentsResp extends BaseResp {
     public static class Agent{
         public String uid;
         public String realName;
+        public String tel;
+        public String weChat;
+        public Integer level;
+        public String parentName;
+        public int subNumber;
     }
 
     public int pageId;
