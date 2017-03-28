@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mr_media
 -- ------------------------------------------------------
--- Server version	5.7.17
+-- Server version	5.6.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,38 +16,69 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `mr_media`
+-- Table structure for table `actor`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mr_media` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `mr_media`;
-
---
--- Table structure for table `actor_video`
---
-
-DROP TABLE IF EXISTS `actor_video`;
+DROP TABLE IF EXISTS `actor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `actor_video` (
+CREATE TABLE `actor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) DEFAULT NULL,
-  `location` varchar(128) DEFAULT NULL,
+  `uid` int(11) NOT NULL,
+  `avatar` varchar(128) NOT NULL,
+  `active` int(11) NOT NULL,
+  `wechat_number` varchar(64) NOT NULL,
+  `id_number` varchar(128) NOT NULL,
+  `talent_type` int(11) NOT NULL,
+  `settle_type` int(11) NOT NULL,
+  `phone_number` varchar(45) NOT NULL,
+  `location` varchar(128) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `settle_account` varchar(45) NOT NULL,
+  `real_name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `video_owner_idx` (`owner_id`),
-  CONSTRAINT `ower_id_user_id_fk` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `uid_fk_idx` (`uid`),
+  CONSTRAINT `uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `actor_video`
+-- Table structure for table `admin`
 --
 
-LOCK TABLES `actor_video` WRITE;
-/*!40000 ALTER TABLE `actor_video` DISABLE KEYS */;
-/*!40000 ALTER TABLE `actor_video` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `phone_number` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `agent`
+--
+
+DROP TABLE IF EXISTS `agent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `agent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `avatar` varchar(45) NOT NULL,
+  `wechat_number` varchar(45) NOT NULL,
+  `phone_number` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `id_number` varchar(45) NOT NULL,
+  `agentcol` varchar(45) NOT NULL,
+  `real_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `agent_uid_fk_idx` (`uid`),
+  CONSTRAINT `agent_uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `authority`
@@ -58,45 +89,13 @@ DROP TABLE IF EXISTS `authority`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `authority` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authority`
---
-
-LOCK TABLES `authority` WRITE;
-/*!40000 ALTER TABLE `authority` DISABLE KEYS */;
-/*!40000 ALTER TABLE `authority` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `authority_group`
---
-
-DROP TABLE IF EXISTS `authority_group`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authority_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` int(11) NOT NULL,
-  `authority_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
+  `authority` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `authority_id_idx` (`authority_id`),
-  CONSTRAINT `authority_id` FOREIGN KEY (`authority_id`) REFERENCES `authority` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `authority_admin_fk_idx` (`admin_id`),
+  CONSTRAINT `authority_admin_fk` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authority_group`
---
-
-LOCK TABLES `authority_group` WRITE;
-/*!40000 ALTER TABLE `authority_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `authority_group` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `notification`
@@ -123,13 +122,22 @@ CREATE TABLE `notification` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `notification`
+-- Table structure for table `picture`
 --
 
-LOCK TABLES `notification` WRITE;
-/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `picture`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `picture` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner_id` int(11) NOT NULL,
+  `location` varchar(256) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `owner_id_idx` (`owner_id`),
+  CONSTRAINT `owner_id` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `platform`
@@ -140,25 +148,17 @@ DROP TABLE IF EXISTS `platform`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `platform` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` varchar(128) NOT NULL,
+  `actor_id` int(11) NOT NULL,
   `valid_day` int(11) NOT NULL,
   `valid_hour` int(11) NOT NULL,
   `gift_count` int(11) DEFAULT NULL,
   `settle_count` int(11) DEFAULT NULL,
   `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `plat_form_fk_idx` (`actor_id`),
+  CONSTRAINT `plat_form_fk` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `platform`
---
-
-LOCK TABLES `platform` WRITE;
-/*!40000 ALTER TABLE `platform` DISABLE KEYS */;
-INSERT INTO `platform` VALUES (1,'iii',1,1,1,1,'111'),(2,'iii',1,2,3,3,'333'),(3,'ooo',1,1,1,1,'222'),(4,'ppp',10,100,10,10,'983592'),(5,'ppp',10,100,10,10,'oiuuyuty'),(6,'ppp',123,123,123,123,'wer');
-/*!40000 ALTER TABLE `platform` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `review`
@@ -183,13 +183,25 @@ CREATE TABLE `review` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `review`
+-- Table structure for table `settle`
 --
 
-LOCK TABLES `review` WRITE;
-/*!40000 ALTER TABLE `review` DISABLE KEYS */;
-/*!40000 ALTER TABLE `review` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `settle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settle` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `actor_id` int(11) NOT NULL,
+  `platform_id` varchar(45) NOT NULL,
+  `platform_name` varchar(45) NOT NULL,
+  `platform` varchar(45) NOT NULL,
+  `date` datetime NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `settle_actor_fk_idx` (`actor_id`),
+  CONSTRAINT `settle_actor_fk` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `user`
@@ -201,70 +213,18 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` varchar(24) NOT NULL,
-  `real_name` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL DEFAULT 'password',
-  `avatar` varchar(128) DEFAULT NULL,
-  `authority` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   `super_id` int(11) NOT NULL,
   `disable` int(11) NOT NULL DEFAULT '0',
   `token` varchar(128) DEFAULT NULL,
   `valid_time` datetime DEFAULT NULL,
-  `email` varchar(64) DEFAULT NULL,
-  `location` varchar(64) DEFAULT NULL,
-  `settle_account` varchar(64) NOT NULL,
-  `active` int(11) NOT NULL DEFAULT '0',
   `open_id` varchar(128) DEFAULT NULL,
-  `wechat_number` varchar(64) DEFAULT NULL,
-  `phone_number` varchar(64) DEFAULT NULL,
-  `talent_type` int(11) DEFAULT NULL,
-  `settle_type` int(11) NOT NULL,
-  `id_number` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `super_id_uid_fk_idx` (`super_id`),
   CONSTRAINT `super_id_uid_fk` FOREIGN KEY (`super_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd',1,0,1,0,'5258e46def87e29e1c7a2f7f2b3a4792','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'111'),(2,'qqq','qqq','qqq','qqq',2,2,1,0,'5258e46def87e29e1c7a2f7f2b32345e','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'222'),(3,'www','www','www','www',2,2,1,0,'5258e46def87e29e1c7a2f7f2b32rwew','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'333'),(4,'rrr','rrr','rrr','rrr',2,2,1,0,'5258e46def87e29e1c7a2f7f2b323ytr','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444'),(5,'ttt','ttt','ttt','ttt',2,3,2,0,'5258e46def87e29e1c7a2f7f2b323yu','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444'),(6,'uuu','uuu','uuu','uuu',2,3,2,0,'5258e46def87e29e1c7a2f7f2b323yti','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444'),(7,'iii','iii','iii','iii',3,3,2,0,'5258e46def87e29e1c7a2f7f2b323yto','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444'),(8,'ooo','ooo','ooo','ooo',3,3,4,0,'5258e46def87e29e1c7a2f7f2b323yt8','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444'),(9,'ppp','ppp','ppp','ppp',3,3,3,0,'5258e46def87e29e1c7a2f7f2b323yt7','2017-04-27 11:41:27',NULL,NULL,'000',0,NULL,NULL,NULL,0,0,'444');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_uploaded_picture`
---
-
-DROP TABLE IF EXISTS `user_uploaded_picture`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_uploaded_picture` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) DEFAULT NULL,
-  `locations` varchar(256) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `owner_id_idx` (`owner_id`),
-  CONSTRAINT `owner_id` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_uploaded_picture`
---
-
-LOCK TABLES `user_uploaded_picture` WRITE;
-/*!40000 ALTER TABLE `user_uploaded_picture` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_uploaded_picture` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'mr_media'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -275,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-28 16:45:01
+-- Dump completed on 2017-03-28 22:27:02
