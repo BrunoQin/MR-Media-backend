@@ -46,4 +46,13 @@ public class AdminService {
 
     }
 
+    public int getSubActorsNumber(String superId){
+
+        return Ebean.find(User.class).where()
+                .eq("super_id", superId)
+                .eq("authority", User.ACTOR_AUTHORITY)
+                .findRowCount();
+
+    }
+
 }

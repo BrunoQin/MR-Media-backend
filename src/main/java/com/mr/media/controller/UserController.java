@@ -25,6 +25,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(){
+        return "hello";
+    }
+
     /**
      * 用户登录
      */

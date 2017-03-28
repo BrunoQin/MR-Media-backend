@@ -51,6 +51,11 @@ public class AdminController {
                     GetPagedAgentsResp.Agent agent = new GetPagedAgentsResp.Agent();
                     agent.uid = o.getUid();
                     agent.realName = o.getRealName();
+                    agent.level = o.getLevel();
+                    agent.parentName = o.getSuperUser().getRealName();
+                    agent.subNumber = adminService.getSubActorsNumber(o.getUid());
+                    agent.tel = o.getPhoneNumber();
+                    agent.weChat = o.getWechatNumber();
                     return agent;
                 }
         ).collect(Collectors.toList());
