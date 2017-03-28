@@ -67,6 +67,9 @@ public class BaseResp {
     // 标记审核类型错误
     public static final int MARK_REVIEW_WRONG_TYPE = 24;
 
+    // 查找用户不存在
+    public static final int USER_IS_NOT_EXIST = 25;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 

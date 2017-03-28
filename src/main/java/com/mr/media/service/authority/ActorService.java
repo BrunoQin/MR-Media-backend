@@ -1,11 +1,11 @@
 package com.mr.media.service.authority;
 
-import com.google.common.io.Files;
-import com.mr.media.model.ActorVideo;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.actor.UploadAvatarResp;
 import com.mr.media.response.authority.actor.UploadVideoResp;
+import com.mr.media.response.authority.agent.UploadPictureResp;
+import com.mr.media.service.UploadService;
 import com.mr.media.service.UserService;
 import com.mr.media.util.FileHelper;
 import org.slf4j.Logger;
@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 /**
  * Created by tanjingru on 11/01/2017.
@@ -28,68 +26,17 @@ public class ActorService {
     @Autowired
     FileHelper fileHelper;
 
+    @Autowired
+    UploadService uploadService;
+
     final Logger logger = LoggerFactory.getLogger(getClass());
 
     public UploadAvatarResp UploadAvatar(String token, MultipartFile uploadFile){
-        User user = userService.findUserByToken(token);
-        if(!validateAvatar(uploadFile.getOriginalFilename())){
-            return new UploadAvatarResp(BaseResp.UPLOAD_FILE_TYPE_NOT_ALLOW, null);
-        }
-        String filename = fileHelper.generateFilename(uploadFile.getOriginalFilename(), user.getUid());
-        String filePath = fileHelper.generateFilePath(filename);
-        try {
-            Boolean result = fileHelper.saveFile(filePath, uploadFile.getBytes());
-            if(result){
-                user.setAvatar(filename);
-                user.update();
-                return new UploadAvatarResp(BaseResp.SUCCESS, new UploadAvatarResp.Location(filename));
-            }
-            else {
-                return new UploadAvatarResp(BaseResp.UNKNOWN, null);
-            }
-        } catch (IOException e) {
-            logger.error("failed to add employee", e);
-            return new UploadAvatarResp(BaseResp.UNKNOWN, null);
-        }
+        return uploadService.upLoadAvatar(token, uploadFile);
     }
-
-    private Boolean validateAvatar(String filename){
-        String extensionName = Files.getFileExtension(filename);
-        return fileHelper.validateAvatarType(extensionName);
-    }
-
-    private Boolean validateVideo(String filename){
-        String extensionName = Files.getFileExtension(filename);
-        return fileHelper.validateVideoType(extensionName);
-    }
-
-
 
     public UploadVideoResp uploadVideo(String token, MultipartFile uploadFile) {
-        User user = userService.findUserByToken(token);
-        if(!validateVideo(uploadFile.getOriginalFilename())){
-            return new UploadVideoResp(BaseResp.UPLOAD_FILE_TYPE_NOT_ALLOW, null);
-        }
-        String filename = fileHelper.generateFilename(uploadFile.getOriginalFilename(), user.getUid());
-        String filePath = fileHelper.generateFilePath(filename);
-        try {
-            Boolean result = fileHelper.saveFile(filePath, uploadFile.getBytes());
-            if(result){
-                ActorVideo actorVideo = new ActorVideo();
-                actorVideo.setOwner(user);
-                actorVideo.setLocation(filename);
-                actorVideo.save();
-                return new UploadVideoResp(BaseResp.SUCCESS, new UploadVideoResp.Location(filename));
-            }
-            else {
-                return new UploadVideoResp(BaseResp.UNKNOWN, null);
-            }
-        }
-        catch(IOException e) {
-            logger.error("failed to add employee", e);
-            return new UploadVideoResp(BaseResp.UNKNOWN, null);
-        }
-
+        return uploadService.uploadVideo(token, uploadFile);
     }
 
     public int actorRegister(String uid, String realName, Integer telentType, String phoneNumber, String weChatNumber, String email, String location, Integer settleType, String settleAccount){
@@ -126,4 +73,18 @@ public class ActorService {
 
     }
 
+    public UploadPictureResp upLoadPicture(String token, MultipartFile multipartFile){
+        return uploadService.UploadPicture(token, multipartFile);
+    }
+
+    public UploadPictureResp uploadPictures(String token, MultipartFile picture1, MultipartFile picture2, MultipartFile picture3) {
+        UploadPictureResp result1 = upLoadPicture(token, picture1);
+        UploadPictureResp result2 = upLoadPicture(token, picture2);
+        UploadPictureResp result3 = upLoadPicture(token, picture3);
+        int error = 0;
+        if(result1.errCode != BaseResp.SUCCESS) error = result1.errCode;
+        if(result2.errCode != BaseResp.SUCCESS) error = result2.errCode;
+        if(result3.errCode != BaseResp.SUCCESS) error = result3.errCode;
+        return new UploadPictureResp(error);
+    }
 }

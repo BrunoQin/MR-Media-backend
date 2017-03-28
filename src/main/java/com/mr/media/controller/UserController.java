@@ -6,6 +6,8 @@ import com.mr.media.request.user.LoginReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.user.GetProfileResp;
 import com.mr.media.response.user.LoginResp;
+import com.mr.media.response.user.SubEmployeeDetailResp;
+import com.mr.media.response.user.SubEmployeesResp;
 import com.mr.media.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +70,20 @@ public class UserController {
         int errCode = userService.changePassword(token, changePasswordReq.oldPassword, changePasswordReq.newPassword, changePasswordReq.confirmPassword);
         return new BaseResp(errCode);
 
+    }
+
+    /**
+     * 用户查看下属员工
+     */
+    @RequestMapping(value = "/sub_employees", method = RequestMethod.POST)
+    public SubEmployeesResp lookUpSubEmployees(String token, Integer pageId, Integer pageSize){
+        SubEmployeesResp result =  userService.lookUpSubEmployees(token, pageId, pageSize);
+        return result;
+    }
+
+    @RequestMapping(value = "/sub_employee/{uid}", method = RequestMethod.POST)
+    public SubEmployeeDetailResp getSubEmployeeDetail(String token, @PathVariable String uid){
+        return userService.getSubEmployeeDetail(token, uid);
     }
 
 }

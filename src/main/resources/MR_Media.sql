@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mr_media
 -- ------------------------------------------------------
--- Server version	5.7.17
+-- Server version	5.6.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,14 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `mr_media`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mr_media` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `mr_media`;
 
 --
 -- Table structure for table `actor_video`
@@ -177,7 +169,7 @@ CREATE TABLE `user` (
   `avatar` varchar(128) DEFAULT NULL,
   `authority` int(11) NOT NULL,
   `level` int(11) NOT NULL,
-  `super_id` int(11) NOT NULL,
+  `super_id` int(11) DEFAULT NULL,
   `disable` int(11) NOT NULL DEFAULT '0',
   `token` varchar(128) DEFAULT NULL,
   `valid_time` datetime DEFAULT NULL,
@@ -193,7 +185,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `super_id_uid_fk_idx` (`super_id`),
   CONSTRAINT `super_id_uid_fk` FOREIGN KEY (`super_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,7 +194,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd',0,0,1,0,'9f4363087c1292187de14cee06cbe1eb','2017-04-10 16:11:56',NULL,NULL,'000',0,NULL,NULL,NULL,0,0);
+INSERT INTO `user` VALUES (1,'ddd','ddd','ddd','ddd3ae0623d-1576-48b2-b50f-9aa362083764Screen Shot 2017-03-13 at 8.50.53 AM.png',0,0,NULL,0,'0762399554d8baec2736541722964941','2017-04-12 14:55:31',NULL,NULL,'000',0,NULL,NULL,NULL,0,0),(2,'qb','qb','qb',NULL,1,1,1,0,NULL,NULL,NULL,NULL,'000',0,NULL,NULL,NULL,0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,11 +208,11 @@ DROP TABLE IF EXISTS `user_uploaded_picture`;
 CREATE TABLE `user_uploaded_picture` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner_id` int(11) DEFAULT NULL,
-  `locations` varchar(256) NOT NULL,
+  `location` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `owner_id_idx` (`owner_id`),
   CONSTRAINT `owner_id` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,12 +221,9 @@ CREATE TABLE `user_uploaded_picture` (
 
 LOCK TABLES `user_uploaded_picture` WRITE;
 /*!40000 ALTER TABLE `user_uploaded_picture` DISABLE KEYS */;
+INSERT INTO `user_uploaded_picture` VALUES (1,1,'ddd8bc27afc-08be-4dd6-8049-784b5bfa9562Screen Shot 2017-03-13 at 8.44.38 AM.png'),(2,1,'ddd14caaadd-2f93-4553-8039-1127878c596bScreen Shot 2017-03-13 at 8.50.53 AM.png'),(3,1,'dddaaff3905-365b-456d-b6cb-9cb9c9973dc6Screen Shot 2017-03-13 at 9.07.10 AM.png'),(4,1,'ddd00b3b3c7-5714-4d21-aa73-634f07f7c365Screen Shot 2017-03-13 at 9.07.10 AM.png'),(5,1,'dddb2ed1004-47e2-4f20-8334-916d66c2369aScreen Shot 2017-03-13 at 9.07.10 AM.png');
 /*!40000 ALTER TABLE `user_uploaded_picture` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'mr_media'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -245,4 +234,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-11 16:14:23
+-- Dump completed on 2017-03-13 14:59:49
