@@ -70,6 +70,9 @@ public class BaseResp {
     // 查找用户不存在
     public static final int USER_IS_NOT_EXIST = 25;
 
+    // 查找下级用户uid为空
+    public static final int LOOK_UP_SUB_EMPLOYUEES_NULL_UID = 26;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 

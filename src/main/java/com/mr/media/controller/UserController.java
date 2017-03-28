@@ -1,13 +1,12 @@
 package com.mr.media.controller;
 
 import com.mr.media.model.User;
+import com.mr.media.request.user.AddPlatformForActorReq;
 import com.mr.media.request.user.ChangePasswordReq;
 import com.mr.media.request.user.LoginReq;
+import com.mr.media.request.user.LookUpAgentSubEmployeesReq;
 import com.mr.media.response.BaseResp;
-import com.mr.media.response.user.GetProfileResp;
-import com.mr.media.response.user.LoginResp;
-import com.mr.media.response.user.SubEmployeeDetailResp;
-import com.mr.media.response.user.SubEmployeesResp;
+import com.mr.media.response.user.*;
 import com.mr.media.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,9 +80,29 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 用户查看下属员工详细信息
+     */
     @RequestMapping(value = "/sub_employee/{uid}", method = RequestMethod.POST)
     public SubEmployeeDetailResp getSubEmployeeDetail(String token, @PathVariable String uid){
         return userService.getSubEmployeeDetail(token, uid);
+    }
+
+    /**
+     * 用户查看其他员工下属员工
+     */
+    @RequestMapping(value = "/{uid}/sub_employees", method = RequestMethod.POST)
+    public BaseResp lookUpAgentSubEmployees(@PathVariable String uid, @RequestBody LookUpAgentSubEmployeesReq lookUpAgentSubEmployeesReq){
+
+        return userService.lookUpAgentSubEmployees(uid, lookUpAgentSubEmployeesReq.authority);
+
+    }
+
+    @RequestMapping(value = "/add_platform", method = RequestMethod.POST)
+    public BaseResp addPlatformForActor(@RequestBody AddPlatformForActorReq addPlatformForActorReq){
+
+        return userService.addPlatformForActor(addPlatformForActorReq.name, addPlatformForActorReq.uid, addPlatformForActorReq.validDay, addPlatformForActorReq.validHour, addPlatformForActorReq.giftCount, addPlatformForActorReq.settleCount);
+
     }
 
 }

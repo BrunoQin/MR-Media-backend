@@ -82,6 +82,13 @@ public class AdminController {
                     GetPagedActorsResp.Actor actor = new GetPagedActorsResp.Actor();
                     actor.uid = o.getUid();
                     actor.realName = o.getRealName();
+                    actor.idNumber = o.getIdNumber();
+                    actor.tel = o.getPhoneNumber();
+                    actor.weChat = o.getWechatNumber();
+                    actor.active = o.getActive();
+                    actor.level = o.getLevel();
+                    actor.location = o.getLocation();
+                    actor.parentName = o.getSuperUser().getRealName();
                     return actor;
                 }
         ).collect(Collectors.toList());
