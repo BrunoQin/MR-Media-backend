@@ -85,7 +85,7 @@ public class UserController {
     @RequestMapping(value = "/{uid}/sub_employees", method = RequestMethod.POST)
     public BaseResp lookUpAgentSubEmployees(@PathVariable String uid, @RequestBody LookUpAgentSubEmployeesReq lookUpAgentSubEmployeesReq){
 
-        return userService.lookUpAgentSubEmployees(uid, lookUpAgentSubEmployeesReq.authority);
+        return userService.lookUpAgentSubEmployees(uid, lookUpAgentSubEmployeesReq.role);
 
     }
 

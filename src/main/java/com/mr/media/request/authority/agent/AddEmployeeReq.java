@@ -5,5 +5,5 @@ package com.mr.media.request.authority.agent;
  */
 public class AddEmployeeReq {
     public String realName;
-    public Integer authority;
+    public Integer role;
 }

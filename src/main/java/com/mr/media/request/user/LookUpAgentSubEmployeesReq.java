@@ -5,6 +5,6 @@ package com.mr.media.request.user;
  */
 public class LookUpAgentSubEmployeesReq {
 
-    public Integer authority;
+    public Integer role;
 
 }

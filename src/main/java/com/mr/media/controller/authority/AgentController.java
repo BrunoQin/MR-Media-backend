@@ -31,7 +31,7 @@ public class AgentController {
 
     @RequestMapping(value = "/add_employee", method = RequestMethod.POST)
     public BaseResp addEmployee(String token, @RequestBody AddEmployeeReq addEmployeeReq){
-        Pair<Integer, String> pair = agentService.addEmployee(token, addEmployeeReq.realName, addEmployeeReq.authority);
+        Pair<Integer, String> pair = agentService.addEmployee(token, addEmployeeReq.realName, addEmployeeReq.role);
         AddEmployeeResp.Employee employee = new AddEmployeeResp.Employee();
         employee.uid = pair.getSecond();
         return new AddEmployeeResp(pair.getFirst(), employee);
