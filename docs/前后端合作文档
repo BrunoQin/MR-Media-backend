@@ -1,0 +1,75 @@
+1. 谭静茹 黄日辉
+2. 秦博 张佳琪
+
+
+### 注册：（指明经纪人  和  主播  （必须指明上级经纪人）） -> 审核表 , 图片表 2
+ 
+### 查看所有的经纪人和主播： 2
+
+### 查看所有的结算(新建一张结算表）1
+
+##### request example 
+/settle/all?month=3&year=10&token=1232131312
+
+##### response example
+
+```json
+{
+  "errCode": 0,
+  "settles": [
+    {
+      "actor": {
+        "active": 0,
+        "actor": {
+          "disable": 0,
+          "id": 0,
+          "level": 0,
+          "openId": "string",
+          "password": "string",
+          "role": 0,
+          "superUser": {},
+          "token": "string",
+          "uid": "string",
+          "validTime": "2017-03-29T07:17:13.266Z"
+        },
+        "avatar": "string",
+        "email": "string",
+        "id": 0,
+        "idNumber": "string",
+        "location": "string",
+        "phoneNumber": "string",
+        "realName": "string",
+        "settleAccount": "string",
+        "settleType": 0,
+        "talentType": 0,
+        "wechatNumber": "string"
+      },
+      "amount": 0,
+      "date": "2017-03-29T07:17:13.266Z",
+      "id": 0,
+      "platform": "string",
+      "platformId": "string",
+      "platformName": "string"
+    }
+  ]
+}
+
+```
+
+
+
+### 查看所有的审核 （链接到图片表）1 
+
+### 对审核的操作（删除， 批改  设计审核表）1 
+
+### 修改主播信息 2
+
+### 主播列表-主播详情-添加一条结算（这是结算表的来源） 2
+
+### 管理员设置 （获取管理员  新建管理员 修改管理员 删除管理员)   1
+
+### 审核状态 query审核表   1
+
+### 个人信息 （所有连接的图片）            2
+
+### 经纪人列表 查看下属经纪人， 查看下属艺人       2
