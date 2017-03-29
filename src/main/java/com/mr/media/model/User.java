@@ -55,24 +55,24 @@ public class User extends Model {
     int role;
 
     @Column(name = "real_name")
-    int realName;
+    String realName;
 
     @Column(name = "id_number")
-    int idNumber;
+    String idNumber;
 
-    public int getRealName() {
+    public String getRealName() {
         return realName;
     }
 
-    public void setRealName(int realName) {
+    public void setRealName(String realName) {
         this.realName = realName;
     }
 
-    public int getIdNumber() {
+    public String getIdNumber() {
         return idNumber;
     }
 
-    public void setIdNumber(int idNumber) {
+    public void setIdNumber(String idNumber) {
         this.idNumber = idNumber;
     }
 
