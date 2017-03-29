@@ -3,16 +3,22 @@ package com.mr.media.service;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
+import com.mr.media.model.Picture;
 import com.mr.media.model.Review;
 import com.mr.media.model.User;
+import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.review.GetAllReviewsResp;
+import com.mr.media.response.review.GetReviewPicturesResp;
 import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by 秦博 on 2017/3/11.
@@ -81,6 +87,52 @@ public class ReviewService {
             return BaseResp.UNKNOWN;
         }
 
+    }
+
+    public GetAllReviewsResp getAllReviews(){
+        List<Review> reviews =  Ebean.find(Review.class).where().findList();
+        List<GetAllReviewsResp.ReviewEntity> reviewEntityList = new ArrayList<>();
+        for(Review review: reviews){
+            reviewEntityList.add(new GetAllReviewsResp.ReviewEntity(review,
+                    getPictures(review, 0),
+                    getPictures(review, 1)));
+        }
+        return new GetAllReviewsResp(BaseResp.SUCCESS, reviewEntityList);
+    }
+
+
+
+    private List<String> getPictures(Review review, int type){
+        return Ebean.find(Picture.class).where().eq("owner_id.id", review.getCreator().getId()).eq("type", type).findList()
+                .stream().map(Picture::getLocation
+                ).collect(Collectors.toList());
+    }
+
+
+
+    public BaseResp deleteReview(String rid) {
+        Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
+        if(review == null){
+            return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
+        }
+        review.delete();
+        return new BaseResp(BaseResp.SUCCESS);
+    }
+
+    public BaseResp operateReview(String rid, OperateReviewReq operation) {
+        Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
+        if(review == null){
+            return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
+        }
+        if(operation.operation == 0)
+        {
+            review.setStatus(1);
+        }
+
+        if(operation.operation == 1){
+            review.setStatus(2);
+        }
+        return new BaseResp(BaseResp.SUCCESS);
     }
 
 }

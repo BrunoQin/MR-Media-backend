@@ -2,17 +2,17 @@ package com.mr.media.controller;
 
 import com.mr.media.model.Review;
 import com.mr.media.request.review.MarkReviewReq;
+import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.review.GetAllReviewsResp;
 import com.mr.media.response.review.GetPagedReviewsResp;
+import com.mr.media.response.review.GetReviewPicturesResp;
 import com.mr.media.service.ReviewService;
 import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +29,7 @@ public class ReviewController {
 
     @Autowired
     ReviewService reviewService;
+
 
     @RequestMapping(value = "/get_reviews", method = RequestMethod.GET)
     public BaseResp getPagedReviews(String token, Integer pageId, Integer pageSize, Integer status){
@@ -48,6 +49,23 @@ public class ReviewController {
                 }
         ).collect(Collectors.toList());
         return new GetPagedReviewsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getFirst(), reviews);
+    }
+
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public GetAllReviewsResp getAllReviews(String token){
+        return reviewService.getAllReviews();
+    }
+
+    @RequestMapping(value = "/{rid}/delete", method = RequestMethod.POST)
+    public BaseResp deleteReview(@PathVariable String rid){
+        return reviewService.deleteReview(rid);
+    }
+
+
+    @RequestMapping(value = "/{rid}/operate", method = RequestMethod.POST)
+    public BaseResp operateReview(@PathVariable String rid, @RequestBody OperateReviewReq operation){
+        return reviewService.operateReview(rid, operation);
     }
 
     @RequestMapping(value = "/mark_review", method = RequestMethod.POST)
