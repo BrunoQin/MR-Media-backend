@@ -3,19 +3,20 @@ package com.mr.media.service;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
-import com.mr.media.model.Picture;
-import com.mr.media.model.Review;
-import com.mr.media.model.User;
+import com.mr.media.model.*;
 import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.review.GetAllReviewsResp;
 import com.mr.media.response.review.GetReviewPicturesResp;
+import com.mr.media.service.authority.ActorService;
+import com.mr.media.service.authority.AgentService;
 import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,12 @@ public class ReviewService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AgentService agentService;
+
+    @Autowired
+    ActorService actorService;
 
     public Review findReviewById(int id){
         return Ebean.find(Review.class).where()
@@ -101,6 +108,19 @@ public class ReviewService {
     }
 
 
+    private String getIDNumber(Review review){
+        User user = review.getCreator();
+        String IDNumber = "";
+        if(user.getRole() == 2){
+            IDNumber =  Ebean.find(Agent.class).where().eq("uid.id", user.getId()).findUnique().getIdNumber();
+        }
+        if(user.getRole() == 3){
+            IDNumber =  Ebean.find(Actor.class).where().eq("uid.id", user.getId()).findUnique().getIdNumber();
+        }
+        return IDNumber;
+    }
+
+
 
     private List<String> getPictures(Review review, int type){
         return Ebean.find(Picture.class).where().eq("owner_id.id", review.getCreator().getId()).eq("type", type).findList()
@@ -111,15 +131,19 @@ public class ReviewService {
 
 
     public BaseResp deleteReview(String rid) {
+        Ebean.beginTransaction();
         Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
         if(review == null){
             return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
         }
         review.delete();
+        Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
     }
 
+
     public BaseResp operateReview(String rid, OperateReviewReq operation) {
+        Ebean.beginTransaction();
         Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
         if(review == null){
             return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
@@ -132,6 +156,8 @@ public class ReviewService {
         if(operation.operation == 1){
             review.setStatus(2);
         }
+        review.update();
+        Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
     }
 

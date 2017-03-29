@@ -54,6 +54,28 @@ public class User extends Model {
     @Column(name = "role")
     int role;
 
+    @Column(name = "real_name")
+    int realName;
+
+    @Column(name = "id_number")
+    int idNumber;
+
+    public int getRealName() {
+        return realName;
+    }
+
+    public void setRealName(int realName) {
+        this.realName = realName;
+    }
+
+    public int getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(int idNumber) {
+        this.idNumber = idNumber;
+    }
+
     public int getId() {
         return id;
     }
