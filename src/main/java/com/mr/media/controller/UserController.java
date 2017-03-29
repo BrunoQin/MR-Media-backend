@@ -47,9 +47,9 @@ public class UserController {
 
     }
 
-    /**
-     * 用户查看个人信息
-     */
+//    /**
+//     * 用户查看个人信息
+//     */
 //    @RequestMapping(value = "/profile", method = RequestMethod.GET)
 //    public BaseResp getProfile(String token){
 //
@@ -71,32 +71,23 @@ public class UserController {
 
     }
 
-//    /**
-//     * 用户查看下属员工
-//     */
-//    @RequestMapping(value = "/sub_employees", method = RequestMethod.POST)
-//    public SubEmployeesResp lookUpSubEmployees(String token, Integer pageId, Integer pageSize){
-//        SubEmployeesResp result =  userService.lookUpSubEmployees(token, pageId, pageSize);
-//        return result;
-//    }
-//
-//    /**
-//     * 用户查看下属员工详细信息
-//     */
-//    @RequestMapping(value = "/sub_employee/{uid}", method = RequestMethod.POST)
-//    public SubEmployeeDetailResp getSubEmployeeDetail(String token, @PathVariable String uid){
-//        return userService.getSubEmployeeDetail(token, uid);
-//    }
-//
-//    /**
-//     * 用户查看其他员工下属员工
-//     */
-//    @RequestMapping(value = "/{uid}/sub_employees", method = RequestMethod.POST)
-//    public BaseResp lookUpAgentSubEmployees(@PathVariable String uid, @RequestBody LookUpAgentSubEmployeesReq lookUpAgentSubEmployeesReq){
-//
-//        return userService.lookUpAgentSubEmployees(uid, lookUpAgentSubEmployeesReq.authority);
-//
-//    }
+    /**
+     * 用户查看下属员工详细信息
+     */
+    @RequestMapping(value = "/sub_employee/{uid}", method = RequestMethod.POST)
+    public LookUpSubEmployeeDetailResp getSubEmployeeDetail(String token, @PathVariable String uid){
+        return userService.lookUpSubEmployeeDetail(token, uid);
+    }
+
+    /**
+     * 用户查看其他员工下属员工
+     */
+    @RequestMapping(value = "/{uid}/sub_employees", method = RequestMethod.POST)
+    public BaseResp lookUpAgentSubEmployees(@PathVariable String uid, @RequestBody LookUpAgentSubEmployeesReq lookUpAgentSubEmployeesReq){
+
+        return userService.lookUpAgentSubEmployees(uid, lookUpAgentSubEmployeesReq.authority);
+
+    }
 
     @RequestMapping(value = "/add_platform", method = RequestMethod.POST)
     public BaseResp addPlatformForActor(@RequestBody AddPlatformForActorReq addPlatformForActorReq){

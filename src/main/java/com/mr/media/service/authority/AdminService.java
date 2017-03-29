@@ -30,7 +30,7 @@ public class AdminService {
                 .findUnique();
     }
 
-    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer authority, Integer disable, String realName){
+    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer role, Integer disable){
 
         if(pageId < 0 || pageSize <= 0){
             return new Pair(new BaseResp(BaseResp.WRONG_PAGE_PARAM), null);
@@ -38,12 +38,9 @@ public class AdminService {
 
         ExpressionList<User> el = Ebean.find(User.class).where();
 
-        el = el.eq("authority", authority);
+        el = el.eq("role", role);
         if(disable != null){
             el = el.eq("disable", disable);
-        }
-        if(!StringUtils.isEmpty(realName)){
-            el = el.contains("real_name", realName);
         }
 
         PagedList<User> pl = el.findPagedList(pageId, pageSize);
