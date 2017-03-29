@@ -3,6 +3,8 @@ package com.mr.media.service.authority;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
+import com.mr.media.model.Admin;
+import com.mr.media.model.Agent;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.tool.Pair;
@@ -22,7 +24,13 @@ public class AdminService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer authority, Integer disable, String realName){
+    public Admin findAdminByUid(int uid){
+        return Ebean.find(Admin.class).where()
+                .eq("uid", uid)
+                .findUnique();
+    }
+
+    public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer role, Integer disable){
 
         if(pageId < 0 || pageSize <= 0){
             return new Pair(new BaseResp(BaseResp.WRONG_PAGE_PARAM), null);
@@ -30,12 +38,9 @@ public class AdminService {
 
         ExpressionList<User> el = Ebean.find(User.class).where();
 
-        el = el.eq("authority", authority);
+        el = el.eq("role", role);
         if(disable != null){
             el = el.eq("disable", disable);
-        }
-        if(!StringUtils.isEmpty(realName)){
-            el = el.contains("real_name", realName);
         }
 
         PagedList<User> pl = el.findPagedList(pageId, pageSize);
@@ -50,7 +55,7 @@ public class AdminService {
 
         return Ebean.find(User.class).where()
                 .eq("super_id", superId)
-                .eq("authority", User.ACTOR_AUTHORITY)
+                .eq("authority", User.ACTOR_ROLE)
                 .findRowCount();
 
     }

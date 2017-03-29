@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by tanjingru on 13/03/2017.
  */
-public class SubEmployeeDetailResp extends BaseResp{
+public class LookUpSubEmployeeDetailResp extends BaseResp{
 
     public static class Platform{
         public String name;
@@ -34,7 +34,7 @@ public class SubEmployeeDetailResp extends BaseResp{
     public Employee employee;
     public List<Platform> platforms;
 
-    public SubEmployeeDetailResp(int errCode, Employee employee, List<Platform> platforms) {
+    public LookUpSubEmployeeDetailResp(int errCode, Employee employee, List<Platform> platforms) {
         super(errCode);
         this.employee = employee;
         this.platforms = platforms;

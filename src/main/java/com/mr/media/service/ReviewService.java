@@ -34,7 +34,7 @@ public class ReviewService {
     public Pair<Integer, List<Review>> getPagedReviews(String token, Integer pageId, Integer pageSize, Integer status){
 
         User receiver = userService.findUserByToken(token);
-        if(receiver.getAuthority() != 0){
+        if(receiver.getRole() != User.ADMIN_ROLE){
             return new Pair(new BaseResp(BaseResp.PERMISSION_DENIED), null);
         }
         if(status != Review.READ_REVIEW && status != Review.UNREAD_REVIEW && status != Review.UNMARK){

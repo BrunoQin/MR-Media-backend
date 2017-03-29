@@ -16,8 +16,9 @@ public class Platform extends Model {
     @Column(name = "id")
     int id;
 
-    @Column(name = "uid")
-    String uid;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Actor.class)
+    @JoinColumn(name = "actor_id", referencedColumnName = "id")
+    Actor actor;
 
     @Column(name = "valid_day")
     int validDay;
@@ -42,12 +43,12 @@ public class Platform extends Model {
         this.id = id;
     }
 
-    public String getUid() {
-        return uid;
+    public Actor getActor() {
+        return actor;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 
     public int getValidDay() {

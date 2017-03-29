@@ -1,5 +1,7 @@
 package com.mr.media.service.authority;
 
+import com.avaje.ebean.Ebean;
+import com.mr.media.model.Actor;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.actor.UploadAvatarResp;
@@ -31,15 +33,21 @@ public class ActorService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public UploadAvatarResp UploadAvatar(String token, MultipartFile uploadFile){
-        return uploadService.upLoadAvatar(token, uploadFile);
+//    public UploadAvatarResp UploadAvatar(String token, MultipartFile uploadFile){
+//        return uploadService.upLoadAvatar(token, uploadFile);
+//    }
+//
+//    public UploadVideoResp uploadVideo(String token, MultipartFile uploadFile) {
+//        return uploadService.uploadVideo(token, uploadFile);
+//    }
+
+    public Actor findActorByUid(int uid){
+        return Ebean.find(Actor.class).where()
+                .eq("uid", uid)
+                .findUnique();
     }
 
-    public UploadVideoResp uploadVideo(String token, MultipartFile uploadFile) {
-        return uploadService.uploadVideo(token, uploadFile);
-    }
-
-    public int actorRegister(String uid, String realName, Integer telentType, String phoneNumber, String weChatNumber, String email, String location, Integer settleType, String settleAccount){
+    public int actorRegister(String uid, String realName, Integer telentType, String phoneNumber, String weChatNumber, String email, String location, Integer settleType, String settleAccount, String idNumber){
 
         User user = userService.findUserByUid(uid);
         if(user != null) {
@@ -49,42 +57,50 @@ public class ActorService {
         // 找到超级管理员，以后要改
         User superAdmin = userService.findUserByUid("ddd");
 
-        user = new User();
-        user.setUid(uid);
-        user.setRealName(realName);
-        user.setTalentType(telentType);
-        user.setPhoneNumber(phoneNumber);
-        user.setWechatNumber(weChatNumber);
-        user.setEmail(email);
-        user.setLocation(location);
-        user.setSettleType(settleType);
-        user.setSettleAccount(settleAccount);
-        user.setAuthority(999);
-        user.setLevel(2);
-        user.setSuperUser(superAdmin);
-
+        Ebean.beginTransaction();
         try{
+            user = new User();
+            user.setUid(uid);
+            user.setLevel(1);
+            user.setRole(User.ACTOR_ROLE);
+            user.setSuperUser(superAdmin);
+
+            Actor actor = new Actor();
+            actor.setRealName(realName);
+            actor.setActive(Actor.ACTOR_OFFLINE);
+            actor.setTalentType(telentType);
+            actor.setPhoneNumber(phoneNumber);
+            actor.setWechatNumber(weChatNumber);
+            actor.setEmail(email);
+            actor.setLocation(location);
+            actor.setSettleType(settleType);
+            actor.setSettleAccount(settleAccount);
+            actor.setIdNumber(idNumber);
+
             user.save();
+            actor.save();
+            Ebean.commitTransaction();
             return BaseResp.SUCCESS;
         } catch (Exception e) {
             logger.error("failed to register actor", e);
+            Ebean.rollbackTransaction();
             return BaseResp.UNKNOWN;
         }
 
     }
 
-    public UploadPictureResp upLoadPicture(String token, MultipartFile multipartFile){
-        return uploadService.UploadPicture(token, multipartFile);
-    }
+//    public UploadPictureResp upLoadPicture(String token, MultipartFile multipartFile){
+//        return uploadService.UploadPicture(token, multipartFile);
+//    }
 
-    public UploadPictureResp uploadPictures(String token, MultipartFile picture1, MultipartFile picture2, MultipartFile picture3) {
-        UploadPictureResp result1 = upLoadPicture(token, picture1);
-        UploadPictureResp result2 = upLoadPicture(token, picture2);
-        UploadPictureResp result3 = upLoadPicture(token, picture3);
-        int error = 0;
-        if(result1.errCode != BaseResp.SUCCESS) error = result1.errCode;
-        if(result2.errCode != BaseResp.SUCCESS) error = result2.errCode;
-        if(result3.errCode != BaseResp.SUCCESS) error = result3.errCode;
-        return new UploadPictureResp(error);
-    }
+//    public UploadPictureResp uploadPictures(String token, MultipartFile picture1, MultipartFile picture2, MultipartFile picture3) {
+//        UploadPictureResp result1 = upLoadPicture(token, picture1);
+//        UploadPictureResp result2 = upLoadPicture(token, picture2);
+//        UploadPictureResp result3 = upLoadPicture(token, picture3);
+//        int error = 0;
+//        if(result1.errCode != BaseResp.SUCCESS) error = result1.errCode;
+//        if(result2.errCode != BaseResp.SUCCESS) error = result2.errCode;
+//        if(result3.errCode != BaseResp.SUCCESS) error = result3.errCode;
+//        return new UploadPictureResp(error);
+//    }
 }

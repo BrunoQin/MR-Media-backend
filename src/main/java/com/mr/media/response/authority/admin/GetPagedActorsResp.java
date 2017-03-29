@@ -23,14 +23,14 @@ public class GetPagedActorsResp extends BaseResp {
 
     public int pageId;
     public int pageSize;
-    public int totalpage;
+    public int totalPage;
     public List<Actor> actors;
 
-    public GetPagedActorsResp(int errCode, int pageId, int pageSize, int totalpage, List<Actor> actors){
+    public GetPagedActorsResp(int errCode, int pageId, int pageSize, int totalPage, List<Actor> actors){
         super(errCode);
         this.pageId = pageId;
         this.pageSize = pageSize;
-        this.totalpage = totalpage;
+        this.totalPage = totalPage;
         this.actors = actors;
     }
 }

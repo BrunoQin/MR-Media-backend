@@ -10,7 +10,6 @@ public class AgentRegisterReq {
     public String phoneNumber;
     public String weChatNumber;
     public String email;
-    public Integer settleType;
-    public String settleAccount;
+    public String idNumber;
 
 }

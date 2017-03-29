@@ -20,12 +20,12 @@ public class Notification extends Model{
     @Column(name = "id")
     int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "sender", referencedColumnName = "id")
     User sender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "receiver", referencedColumnName = "id")
     User receiver;
 
     @Column(name = "text_content")

@@ -2,10 +2,7 @@ package com.mr.media.model;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by 秦博 on 2017/3/10.
@@ -19,8 +16,12 @@ public class Authority extends Model{
     @Column(name = "id")
     int id;
 
-    @Column(name = "name")
-    String name;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Admin.class)
+    @JoinColumn(name = "admin_id", referencedColumnName = "id")
+    Admin admin;
+
+    @Column(name = "authority")
+    int authority;
 
     public int getId() {
         return id;
@@ -30,11 +31,19 @@ public class Authority extends Model{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public int getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(int authority) {
+        this.authority = authority;
     }
 }

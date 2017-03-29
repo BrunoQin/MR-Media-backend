@@ -13,17 +13,14 @@ import java.util.Date;
 @Table(name = "user")
 public class User extends Model {
 
-    public final static int ADMIN_AUTHORITY = 1;
-    public final static int AGENT_AUTHORITY = 2;
-    public final static int ACTOR_AUTHORITY = 3;
+    public final static int ADMIN_ROLE = 1;
+    public final static int AGENT_ROLE = 2;
+    public final static int ACTOR_ROLE = 3;
 
     public final static String DEFAULT_PWD = "password";
 
     public final static Integer USER_ACTIVE = 0;
     public final static Integer USER_DEACTIVE = 1;
-
-    public final static Integer ACTOR_ONLINE = 0;
-    public final static Integer ACTOR_OFFLINE = 1;
 
     @Id
     @Column(name = "id")
@@ -32,23 +29,14 @@ public class User extends Model {
     @Column(name = "uid")
     String uid;
 
-    @Column(name = "real_name")
-    String realName;
-
     @Column(name = "password")
     String password;
-
-    @Column(name = "avatar")
-    String avatar;
-
-    @Column(name = "authority")
-    int authority;
 
     @Column(name = "level")
     int level;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "super_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "super_id", referencedColumnName = "id")
     User superUser;
 
     @Column(name = "disable")
@@ -60,37 +48,13 @@ public class User extends Model {
     @Column(name = "valid_time")
     Date validTime;
 
-    @Column(name = "email")
-    String email;
-
-    @Column(name = "talent_type")
-    int talentType;
-
-    @Column(name = "location")
-    String location;
-
-    @Column(name = "settle_type")
-    int settleType;
-
-    @Column(name = "settle_account")
-    String settleAccount;
-
-    @Column(name = "active")
-    int active;
-
     @Column(name = "open_id")
     String openId;
 
-    @Column(name = "wechat_number")
-    String wechatNumber;
+    @Column(name = "role")
+    int role;
 
-    @Column(name = "phone_number")
-    String phoneNumber;
-
-    @Column(name = "id_number")
-    String idNumber;
-
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -106,36 +70,12 @@ public class User extends Model {
         this.uid = uid;
     }
 
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public int getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(int authority) {
-        this.authority = authority;
     }
 
     public int getLevel() {
@@ -178,54 +118,6 @@ public class User extends Model {
         this.validTime = validTime;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getTalentType() {
-        return talentType;
-    }
-
-    public void setTalentType(int talentType) {
-        this.talentType = talentType;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public int getSettleType() {
-        return settleType;
-    }
-
-    public void setSettleType(int settleType) {
-        this.settleType = settleType;
-    }
-
-    public String getSettleAccount() {
-        return settleAccount;
-    }
-
-    public void setSettleAccount(String settleAccount) {
-        this.settleAccount = settleAccount;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
-
     public String getOpenId() {
         return openId;
     }
@@ -234,27 +126,11 @@ public class User extends Model {
         this.openId = openId;
     }
 
-    public String getWechatNumber() {
-        return wechatNumber;
+    public int getRole() {
+        return role;
     }
 
-    public void setWechatNumber(String wechatNumber) {
-        this.wechatNumber = wechatNumber;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getIdNumber() {
-        return idNumber;
-    }
-
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
+    public void setRole(int role) {
+        this.role = role;
     }
 }
