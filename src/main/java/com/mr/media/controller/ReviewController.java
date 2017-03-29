@@ -54,7 +54,7 @@ public class ReviewController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public GetAllReviewsResp getAllReviews(String token){
-        return reviewService.getAllReviews();
+        return reviewService.getAllReviews(null);
     }
 
     @RequestMapping(value = "/{rid}/delete", method = RequestMethod.POST)

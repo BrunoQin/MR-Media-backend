@@ -96,8 +96,14 @@ public class ReviewService {
 
     }
 
-    public GetAllReviewsResp getAllReviews(){
-        List<Review> reviews =  Ebean.find(Review.class).where().findList();
+    public GetAllReviewsResp getAllReviews(User recommender){
+        List<Review> reviews;
+        if(recommender != null){
+             reviews =  Ebean.find(Review.class).where().eq("recommend_id", recommender.getId()).findList();
+        }
+        else{
+            reviews =  Ebean.find(Review.class).where().findList();
+        }
         List<GetAllReviewsResp.ReviewEntity> reviewEntityList = new ArrayList<>();
         for(Review review: reviews){
             reviewEntityList.add(new GetAllReviewsResp.ReviewEntity(review,
