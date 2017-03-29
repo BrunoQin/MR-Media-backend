@@ -234,13 +234,18 @@ public class UserService {
 
         User parent = inspected.getSuperUser();
 
+        int step = 0;
+
         while(true) {
             if (parent == null) return false;
             if (inspector.getUid().equals(parent.getUid())) {
                 return true;
             }
             parent = parent.getSuperUser();
+            step++;
+            if(step > 100) break;
         }
+        return false;
     }
 
 }
