@@ -21,14 +21,40 @@ public class Settle extends Model{
     @JoinColumn(name = "actor_id", referencedColumnName = "id")
     Actor actor;
 
+    //所在平台的名字
+    @Column(name = "platform")
+    String platform;
+
+    //主播在平台上面的名字
     @Column(name = "platform_name")
     String platformName;
+
+    //主播在平台上面的ID
+    @Column(name = "platform_id")
+    String platformId;
 
     @Column(name = "date")
     Date date;
 
     @Column(name = "amount")
     int amount;
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(String platformId) {
+        this.platformId = platformId;
+    }
+
 
     public int getId() {
         return id;
@@ -47,11 +73,11 @@ public class Settle extends Model{
     }
 
     public String getPlatformName() {
-        return platformName;
+        return platform;
     }
 
     public void setPlatformName(String platformName) {
-        this.platformName = platformName;
+        this.platform = platformName;
     }
 
     public Date getDate() {

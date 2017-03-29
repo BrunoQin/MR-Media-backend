@@ -3,7 +3,9 @@ package com.mr.media.controller.authority;
 import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
 import com.mr.media.model.User;
+import com.mr.media.request.authority.admin.CreateAdminReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.authority.admin.GetAllAdminResp;
 import com.mr.media.response.authority.admin.GetPagedActorsResp;
 import com.mr.media.response.authority.admin.GetPagedAgentsResp;
 import com.mr.media.service.UserService;
@@ -14,6 +16,7 @@ import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -108,4 +111,16 @@ public class AdminController {
         return new GetPagedActorsResp(BaseResp.SUCCESS, pageId, pageSize, pair.getFirst(), actors);
 
     }
+
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public GetAllAdminResp getAllAdmin(String token){
+        return adminService.getAllAdmin();
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public BaseResp createAdmin(String token, @RequestBody CreateAdminReq createAdminReq){
+        return adminService.createAdmin(createAdminReq);
+    }
+
 }

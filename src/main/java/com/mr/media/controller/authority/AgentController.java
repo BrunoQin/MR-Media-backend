@@ -4,6 +4,7 @@ import com.mr.media.request.authority.agent.AddEmployeeReq;
 import com.mr.media.request.authority.agent.AgentRegisterReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.agent.AddEmployeeResp;
+import com.mr.media.response.review.GetAllReviewsResp;
 import com.mr.media.service.authority.AgentService;
 
 import com.mr.media.tool.Pair;
@@ -43,6 +44,11 @@ public class AgentController {
         int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.idNumber);
         return new BaseResp(errCode);
 
+    }
+
+    @RequestMapping(value = "/reviews", method = RequestMethod.POST)
+    public GetAllReviewsResp getReviews(String token){
+        return agentService.getAllReviewsResp(token);
     }
 
 //    @RequestMapping(value = "register/upload_picture", method = RequestMethod.POST)

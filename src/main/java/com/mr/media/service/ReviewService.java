@@ -3,16 +3,21 @@ package com.mr.media.service;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
-import com.mr.media.model.Review;
-import com.mr.media.model.User;
+import com.mr.media.model.*;
+import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.review.GetAllReviewsResp;
+import com.mr.media.service.authority.ActorService;
+import com.mr.media.service.authority.AgentService;
 import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by 秦博 on 2017/3/11.
@@ -25,6 +30,12 @@ public class ReviewService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AgentService agentService;
+
+    @Autowired
+    ActorService actorService;
 
     public Review findReviewById(int id){
         return Ebean.find(Review.class).where()
@@ -81,6 +92,77 @@ public class ReviewService {
             return BaseResp.UNKNOWN;
         }
 
+    }
+
+    public GetAllReviewsResp getAllReviews(User recommender){
+        List<Review> reviews;
+        if(recommender != null){
+            reviews =  Ebean.find(Review.class).where().eq("recommend_id", recommender.getId()).findList();
+        }
+        else{
+            reviews =  Ebean.find(Review.class).where().findList();
+        }
+        List<GetAllReviewsResp.ActorReviewEntity> actorReviewEntityList = new ArrayList<>();
+        List<GetAllReviewsResp.AgentReviewEntity> agentReviewEntityList = new ArrayList<>();
+        for(Review review: reviews){
+            if(review.getCreator().getRole() == User.ACTOR_ROLE){
+                Actor actor = Ebean.find(Actor.class).where().eq("uid.id", review.getCreator().getId()).findUnique();
+                actorReviewEntityList.add(new GetAllReviewsResp.ActorReviewEntity(review,
+                        getPictures(review, 0),
+                        getPictures(review, 1),
+                        actor));
+            }
+            if(review.getCreator().getRole() == User.ACTOR_ROLE){
+                Agent agent = Ebean.find(Agent.class).where().eq("uid.id", review.getCreator().getId()).findUnique();
+                agentReviewEntityList.add(new GetAllReviewsResp.AgentReviewEntity(review,
+                        getPictures(review, 0),
+                        getPictures(review, 1),
+                        agent));
+            }
+
+        }
+        return new GetAllReviewsResp(BaseResp.SUCCESS, actorReviewEntityList, agentReviewEntityList);
+    }
+
+
+
+    private List<String> getPictures(Review review, int type){
+        return Ebean.find(Picture.class).where().eq("owner_id.id", review.getCreator().getId()).eq("type", type).findList()
+                .stream().map(Picture::getLocation
+                ).collect(Collectors.toList());
+    }
+
+
+
+    public BaseResp deleteReview(String rid) {
+        Ebean.beginTransaction();
+        Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
+        if(review == null){
+            return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
+        }
+        review.delete();
+        Ebean.endTransaction();
+        return new BaseResp(BaseResp.SUCCESS);
+    }
+
+
+    public BaseResp operateReview(String rid, OperateReviewReq operation) {
+        Ebean.beginTransaction();
+        Review review = Ebean.find(Review.class).where().eq("id", rid).findUnique();
+        if(review == null){
+            return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
+        }
+        if(operation.operation == 0)
+        {
+            review.setStatus(1);
+        }
+
+        if(operation.operation == 1){
+            review.setStatus(2);
+        }
+        review.update();
+        Ebean.endTransaction();
+        return new BaseResp(BaseResp.SUCCESS);
     }
 
 }
