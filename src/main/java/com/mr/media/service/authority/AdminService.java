@@ -55,7 +55,7 @@ public class AdminService {
 
         return Ebean.find(User.class).where()
                 .eq("super_id", superId)
-                .eq("authority", User.ACTOR_ROLE)
+                .eq("role", User.ACTOR_ROLE)
                 .findRowCount();
 
     }

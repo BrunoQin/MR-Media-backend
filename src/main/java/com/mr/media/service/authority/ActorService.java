@@ -47,7 +47,7 @@ public class ActorService {
                 .findUnique();
     }
 
-    public int actorRegister(String uid, String realName, Integer telentType, String phoneNumber, String weChatNumber, String email, String location, Integer settleType, String settleAccount, String idNumber){
+    public int actorRegister(String uid, String realName, String avatar, Integer telentType, String phoneNumber, String weChatNumber, String email, String location, Integer settleType, String settleAccount, String idNumber){
 
         User user = userService.findUserByUid(uid);
         if(user != null) {
@@ -62,11 +62,14 @@ public class ActorService {
             user = new User();
             user.setUid(uid);
             user.setLevel(1);
+            user.setPassword(User.DEFAULT_PWD);
             user.setRole(User.ACTOR_ROLE);
             user.setSuperUser(superAdmin);
 
             Actor actor = new Actor();
+            actor.setActor(user);
             actor.setRealName(realName);
+            actor.setAvatar(avatar);
             actor.setActive(Actor.ACTOR_OFFLINE);
             actor.setTalentType(telentType);
             actor.setPhoneNumber(phoneNumber);
@@ -84,6 +87,37 @@ public class ActorService {
         } catch (Exception e) {
             logger.error("failed to register actor", e);
             Ebean.rollbackTransaction();
+            return BaseResp.UNKNOWN;
+        }
+
+    }
+
+    public int actorEdit(String uid, String realName, Integer active, Integer level, String phoneNumber, String weChatNumber, String parentUid, String location, Integer talentType, Integer settleType, String settleAccount, String idNumber){
+
+        User user = userService.findUserByUid(uid);
+        Actor actor = findActorByUid(user.getId());
+        User parent = userService.findUserByUid(parentUid);
+
+        try{
+            user.setLevel(level);
+            user.setSuperUser(parent);
+
+            actor.setRealName(realName);
+            actor.setActive(active);
+            actor.setPhoneNumber(phoneNumber);
+            actor.setWechatNumber(weChatNumber);
+            actor.setLocation(location);
+            actor.setTalentType(talentType);
+            actor.setSettleAccount(settleAccount);
+            actor.setSettleType(settleType);
+            actor.setIdNumber(idNumber);
+
+            user.update();
+            actor.update();
+            return BaseResp.SUCCESS;
+
+        } catch (Exception e){
+            e.printStackTrace();
             return BaseResp.UNKNOWN;
         }
 

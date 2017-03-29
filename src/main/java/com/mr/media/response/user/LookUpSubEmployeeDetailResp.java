@@ -23,6 +23,9 @@ public class LookUpSubEmployeeDetailResp extends BaseResp{
         public String realName;
         public Integer level;
         public String avatar;
+        public String location;
+        public Integer talentType;
+        public Integer active;
         public String tel;
         public String weChat;
         public String parentName;
