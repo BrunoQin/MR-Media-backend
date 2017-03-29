@@ -5,23 +5,26 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 
 /**
- * Created by 秦博 on 2017/3/10.
+ * Created by 秦博 on 2017/3/29.
  */
 
 @Entity
-@Table(name = "user_uploaded_picture")
-public class UserUploadedPicture extends Model{
+@Table(name = "picture")
+public class Picture extends Model{
 
     @Id
     @Column(name = "id")
     int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id")
-    User Owner;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    User owner;
 
     @Column(name = "location")
     String location;
+
+    @Column(name = "type")
+    int type;
 
     public int getId() {
         return id;
@@ -32,11 +35,11 @@ public class UserUploadedPicture extends Model{
     }
 
     public User getOwner() {
-        return Owner;
+        return owner;
     }
 
     public void setOwner(User owner) {
-        Owner = owner;
+        this.owner = owner;
     }
 
     public String getLocation() {
@@ -47,4 +50,11 @@ public class UserUploadedPicture extends Model{
         this.location = location;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

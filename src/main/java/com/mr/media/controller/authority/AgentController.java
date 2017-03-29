@@ -48,14 +48,14 @@ public class AgentController {
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public BaseResp agentRegister(@RequestBody AgentRegisterReq agentRegisterReq){
 
-        int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.settleType, agentRegisterReq.settleAccount);
+        int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.idNumber);
         return new BaseResp(errCode);
 
     }
 
-    @RequestMapping(value = "register/upload_picture", method = RequestMethod.POST)
-    public BaseResp agentUploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture){
-        return agentService.uploadPictures(token, frontPicture, backPicture);
-    }
+//    @RequestMapping(value = "register/upload_picture", method = RequestMethod.POST)
+//    public BaseResp agentUploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture){
+//        return agentService.uploadPictures(token, frontPicture, backPicture);
+//    }
 
 }

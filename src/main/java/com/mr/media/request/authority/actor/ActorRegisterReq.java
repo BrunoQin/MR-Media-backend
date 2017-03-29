@@ -14,5 +14,6 @@ public class ActorRegisterReq {
     public String location;
     public Integer settleType;
     public String settleAccount;
+    public String idNumber;
 
 }

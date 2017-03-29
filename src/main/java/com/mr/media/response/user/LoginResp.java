@@ -8,11 +8,11 @@ import com.mr.media.response.BaseResp;
 public class LoginResp extends BaseResp {
 
     public String token;
-    public int authority;
+    public int role;
 
-    public LoginResp(int errCode, String token, int authority){
+    public LoginResp(int errCode, String token, int role){
         super(errCode);
         this.token = token;
-        this.authority = authority;
+        this.role = role;
     }
 }

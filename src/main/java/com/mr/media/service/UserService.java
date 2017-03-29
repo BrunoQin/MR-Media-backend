@@ -8,9 +8,11 @@ import com.mr.media.response.BaseResp;
 import com.mr.media.response.user.LookUpAgentSubEmployeesResp;
 import com.mr.media.response.user.SubEmployeeDetailResp;
 import com.mr.media.response.user.SubEmployeesResp;
+import com.mr.media.service.authority.ActorService;
 import com.mr.media.util.TokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +31,9 @@ import java.util.stream.Collectors;
 public class UserService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    ActorService actorService;
 
     public User findUserByRealName(String realName){
         return Ebean.find(User.class).where()
@@ -102,116 +107,13 @@ public class UserService {
         }
     }
 
-    public SubEmployeesResp lookUpSubEmployees(String token, Integer pageId, Integer pageSize) {
-        User user = findUserByToken(token);
-        PagedList<User> pl =  Ebean.find(User.class).findPagedList(pageId, pageSize);
-        int totalPage = pl.getTotalPageCount();
-        return new SubEmployeesResp(0, pageId, pageSize, totalPage, pl.getList());
-    }
-
-    public SubEmployeeDetailResp getSubEmployeeDetail(String token, String uid) {
-        User employee = findUserByUid(uid);
-        if(employee == null) return new SubEmployeeDetailResp(BaseResp.USER_IS_NOT_EXIST, null, null);
-        User inspector = findUserByToken(token);
-        if(employee.getUid().equals(inspector.getUid())){
-            SubEmployeeDetailResp.Employee detail_employee = new SubEmployeeDetailResp.Employee();
-            detail_employee.realName = employee.getRealName();
-            detail_employee.level = employee.getLevel();
-            detail_employee.tel = employee.getPhoneNumber();
-            detail_employee.weChat = employee.getWechatNumber();
-            detail_employee.parentName = employee.getSuperUser().getRealName();
-            detail_employee.settleType = employee.getSettleType();
-            detail_employee.settleCount = employee.getSettleAccount();
-            detail_employee.idNumber = employee.getIdNumber();
-            List<SubEmployeeDetailResp.Platform> platforms = new ArrayList<>();
-            if(employee.getAuthority() == User.ACTOR_AUTHORITY){
-                List<Platform> platformList = Ebean.find(Platform.class).where()
-                        .eq("uid", employee.getUid())
-                        .findList();
-                platforms = platformList.stream().map(o -> {
-                    SubEmployeeDetailResp.Platform platform = new SubEmployeeDetailResp.Platform();
-                    platform.name = o.getName();
-                    platform.uid = o.getUid();
-                    platform.validDay = o.getValidDay();
-                    platform.validHour = o.getValidHour();
-                    platform.giftCount = o.getGiftCount();
-                    platform.settleCount = o.getSettleCount();
-                    return platform;
-                }).collect(Collectors.toList());
-            }
-            return new SubEmployeeDetailResp(BaseResp.SUCCESS, detail_employee, platforms);
-        }
-        User parent = employee.getSuperUser();
-        // 向上递归搜索
-        while(true){
-            if(parent == null) break;
-            if(inspector.getUid().equals(parent.getUid())){
-                SubEmployeeDetailResp.Employee detail_employee = new SubEmployeeDetailResp.Employee();
-                detail_employee.realName = employee.getRealName();
-                detail_employee.level = employee.getLevel();
-                detail_employee.tel = employee.getPhoneNumber();
-                detail_employee.weChat = employee.getWechatNumber();
-                detail_employee.parentName = employee.getSuperUser().getRealName();
-                detail_employee.settleType = employee.getSettleType();
-                detail_employee.settleCount = employee.getSettleAccount();
-                detail_employee.idNumber = employee.getIdNumber();
-                List<SubEmployeeDetailResp.Platform> platforms = new ArrayList<>();
-                if(employee.getAuthority() == User.ACTOR_AUTHORITY){
-                    List<Platform> platformList = Ebean.find(Platform.class).where()
-                            .eq("uid", employee.getUid())
-                            .findList();
-                    platforms = platformList.stream().map(o -> {
-                        SubEmployeeDetailResp.Platform platform = new SubEmployeeDetailResp.Platform();
-                        platform.name = o.getName();
-                        platform.uid = o.getUid();
-                        platform.validDay = o.getValidDay();
-                        platform.validHour = o.getValidHour();
-                        platform.giftCount = o.getGiftCount();
-                        platform.settleCount = o.getSettleCount();
-                        return platform;
-                    }).collect(Collectors.toList());
-                }
-                return new SubEmployeeDetailResp(BaseResp.SUCCESS, detail_employee, platforms);
-            }
-            parent = parent.getSuperUser();
-        }
-        return new SubEmployeeDetailResp(BaseResp.PERMISSION_DENIED, null, null);
-    }
-
-    public LookUpAgentSubEmployeesResp lookUpAgentSubEmployees(String uid, Integer authority){
-
-        if(StringUtils.isEmpty(uid)){
-            return new LookUpAgentSubEmployeesResp(BaseResp.LOOK_UP_SUB_EMPLOYUEES_NULL_UID, null);
-        }
-
-        User inspector = findUserByUid(uid);
-
-        List<User> subEmployees = Ebean.find(User.class).where()
-                .eq("super_id", inspector.getId())
-                .eq("authority", authority)
-                .findList();
-        List<LookUpAgentSubEmployeesResp.Employee> employees = subEmployees.stream().map(o -> {
-            LookUpAgentSubEmployeesResp.Employee employee = new LookUpAgentSubEmployeesResp.Employee();
-            employee.realName = o.getRealName();
-            employee.avatar = o.getAvatar();
-            employee.level = o.getLevel();
-            employee.tel = o.getPhoneNumber();
-            employee.weChat = o.getWechatNumber();
-            employee.idNumber = o.getIdNumber();
-            return employee;
-        }).collect(Collectors.toList());
-
-        return new LookUpAgentSubEmployeesResp(BaseResp.SUCCESS, employees);
-
-    }
-
     public BaseResp addPlatformForActor(String name, String uid, int validDay, int validHour, int giftCount, int settleCount){
         //容错
         Platform platform = new Platform();
 
         try{
             platform.setName(name);
-            platform.setUid(uid);
+            platform.setActor(actorService.findActorByUid(findUserByUid(uid).getId()));
             platform.setValidDay(validDay);
             platform.setValidHour(validHour);
             platform.setGiftCount(giftCount);

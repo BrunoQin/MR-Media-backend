@@ -3,6 +3,8 @@ package com.mr.media.service.authority;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
+import com.mr.media.model.Admin;
+import com.mr.media.model.Agent;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.tool.Pair;
@@ -21,6 +23,12 @@ import java.util.List;
 public class AdminService {
 
     final Logger logger = LoggerFactory.getLogger(getClass());
+
+    public Admin findAdminByUid(int uid){
+        return Ebean.find(Admin.class).where()
+                .eq("uid", uid)
+                .findUnique();
+    }
 
     public Pair<Integer, List<User>> getPagedEmployees(Integer pageId, Integer pageSize, Integer authority, Integer disable, String realName){
 
@@ -50,7 +58,7 @@ public class AdminService {
 
         return Ebean.find(User.class).where()
                 .eq("super_id", superId)
-                .eq("authority", User.ACTOR_AUTHORITY)
+                .eq("authority", User.ACTOR_ROLE)
                 .findRowCount();
 
     }
