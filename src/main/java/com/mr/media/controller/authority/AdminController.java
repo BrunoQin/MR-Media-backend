@@ -53,7 +53,7 @@ public class AdminController {
     public BaseResp getPagedAgents(String token, Integer pageId, Integer pageSize, Integer disable){
 
         User user = userService.findUserByToken(token);
-        if(user.getRole() != User.ACTOR_ROLE){
+        if(user.getRole() != User.ADMIN_ROLE){
             return new BaseResp(BaseResp.PERMITION_NOT_ALLOW);
         }
 
@@ -66,7 +66,7 @@ public class AdminController {
                     agent.uid = o.getUid();
                     agent.realName = temp.getRealName();
                     agent.level = o.getLevel();
-                    agent.parentName = agentService.findAgentByUid(o.getSuperUser().getId()).getRealName();
+                    agent.parentName = o.getSuperUser().getRealName();
                     agent.subNumber = adminService.getSubActorsNumber(o.getUid());
                     agent.tel = temp.getPhoneNumber();
                     agent.weChat = temp.getWechatNumber();
@@ -103,7 +103,7 @@ public class AdminController {
                     actor.active = temp.getActive();
                     actor.level = o.getLevel();
                     actor.location = temp.getLocation();
-                    actor.parentName = actorService.findActorByUid(o.getSuperUser().getId()).getRealName();
+                    actor.parentName = o.getSuperUser().getRealName();
                     return actor;
                 }
         ).collect(Collectors.toList());

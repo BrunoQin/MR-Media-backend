@@ -60,6 +60,12 @@ public class UserService {
                 .findUnique();
     }
 
+    public User findUserById(int id){
+        return Ebean.find(User.class).where()
+                .eq("id", id)
+                .findUnique();
+    }
+
     public int login(String uid, String password){
 
         User user = Ebean.find(User.class).where()
@@ -116,7 +122,7 @@ public class UserService {
             LookUpSubEmployeeDetailResp.Employee detail_employee = userToEmployee(employee);
             List<LookUpSubEmployeeDetailResp.Platform> platforms = new ArrayList<>();
             if(employee.getRole() == User.ACTOR_ROLE){
-                List<Platform> platformList = findActorPlatforms(employee);
+                List<Platform> platformList = findActorPlatforms(actorService.findActorByUid(employee.getId()));
                 platforms = platformList.stream().map(o -> {
                     LookUpSubEmployeeDetailResp.Platform platform = new LookUpSubEmployeeDetailResp.Platform();
                     platform.name = o.getName();
@@ -195,7 +201,7 @@ public class UserService {
 
     }
 
-    public List<Platform> findActorPlatforms(User actor){
+    public List<Platform> findActorPlatforms(Actor actor){
         return Ebean.find(Platform.class).where()
                 .eq("actor_id", actor.getId())
                 .findList();
@@ -219,8 +225,11 @@ public class UserService {
                 detail_employee.realName = actor.getRealName();
                 detail_employee.level = employee.getLevel();
                 detail_employee.tel = actor.getPhoneNumber();
+                detail_employee.location = actor.getLocation();
+                detail_employee.active = actor.getActive();
+                detail_employee.talentType = actor.getTalentType();
                 detail_employee.weChat = actor.getWechatNumber();
-                detail_employee.parentName = actorService.findActorByUid(employee.getSuperUser().getId()).getRealName();
+                detail_employee.parentName = agentService.findAgentByUid(employee.getSuperUser().getId()).getRealName();
                 detail_employee.idNumber = actor.getIdNumber();
                 detail_employee.settleType = actor.getSettleType();
                 detail_employee.settleCount = actor.getSettleAccount();

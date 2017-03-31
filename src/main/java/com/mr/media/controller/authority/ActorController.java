@@ -1,5 +1,7 @@
 package com.mr.media.controller.authority;
 
+import com.avaje.ebeaninternal.server.deploy.generatedproperty.GeneratedInsertJavaTime;
+import com.mr.media.request.authority.actor.ActorEditReq;
 import com.mr.media.request.authority.actor.ActorRegisterReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.actor.UploadAvatarResp;
@@ -40,8 +42,17 @@ public class ActorController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public BaseResp actorRegister(@RequestBody ActorRegisterReq actorRegisterReq){
-        int errCode = actorService.actorRegister(actorRegisterReq.uid, actorRegisterReq.realName, actorRegisterReq.talentType, actorRegisterReq.phoneNumber, actorRegisterReq.weChatNumber, actorRegisterReq.email, actorRegisterReq.location, actorRegisterReq.settleType, actorRegisterReq.settleAccount, actorRegisterReq.idNumber);
+        int errCode = actorService.actorRegister(actorRegisterReq.uid, actorRegisterReq.realName, actorRegisterReq.avatar, actorRegisterReq.talentType, actorRegisterReq.phoneNumber, actorRegisterReq.weChatNumber, actorRegisterReq.email, actorRegisterReq.location, actorRegisterReq.settleType, actorRegisterReq.settleAccount, actorRegisterReq.idNumber);
         return new BaseResp(errCode);
+    }
+
+    @RequestMapping(value = "/edit/{uid}", method = RequestMethod.POST)
+    public BaseResp actorEdit(@PathVariable String uid, @RequestBody ActorEditReq actorEditReq){
+
+        int errCode = actorService.actorEdit(uid, actorEditReq.realName, actorEditReq.active, actorEditReq.level, actorEditReq.phoneNumber, actorEditReq.weChatNumber, actorEditReq.parentUid, actorEditReq.location, actorEditReq.talentType, actorEditReq.settleType, actorEditReq.settleAccount, actorEditReq.idNumber);
+
+        return new BaseResp(errCode);
+
     }
 
 //    @RequestMapping(value = "/register/upload_pictures", method = RequestMethod.POST)

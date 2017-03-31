@@ -38,10 +38,10 @@ public class AgentController {
         return new AddEmployeeResp(pair.getFirst(), employee);
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public BaseResp agentRegister(@RequestBody AgentRegisterReq agentRegisterReq){
 
-        int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.idNumber);
+        int errCode = agentService.agentRegister(agentRegisterReq.uid, agentRegisterReq.realName, agentRegisterReq.avatar, agentRegisterReq.phoneNumber, agentRegisterReq.weChatNumber, agentRegisterReq.email, agentRegisterReq.idNumber);
         return new BaseResp(errCode);
 
     }
