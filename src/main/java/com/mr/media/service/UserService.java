@@ -60,6 +60,12 @@ public class UserService {
                 .findUnique();
     }
 
+    public User findUserById(int id){
+        return Ebean.find(User.class).where()
+                .eq("id", id)
+                .findUnique();
+    }
+
     public int login(String uid, String password){
 
         User user = Ebean.find(User.class).where()

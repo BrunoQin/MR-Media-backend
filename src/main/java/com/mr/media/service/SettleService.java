@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by tanjingru on 29/03/2017.
@@ -36,7 +37,19 @@ public class SettleService {
         Date date = DateHelper.generateDateFromYearAndMonth(year, month);
         List<Settle>  settles = Ebean.find(Settle.class).where()
                                 .eq("date", date).findList();
-        return new GetAllSettleResp(BaseResp.SUCCESS, settles);
+
+        List<GetAllSettleResp.SettleInfo> settleInfos = settles.stream().map(o -> {
+            GetAllSettleResp.SettleInfo settleInfo = new GetAllSettleResp.SettleInfo();
+            settleInfo.uid = userService.findUserById(o.getActor().getActor().getId()).getUid();
+            settleInfo.platform = o.getPlatform();
+            settleInfo.platformId = o.getPlatformId();
+            settleInfo.platformName = o.getPlatformName();
+            settleInfo.amount = o.getAmount();
+            settleInfo.date = o.getDate();
+            return settleInfo;
+        }).collect(Collectors.toList());
+
+        return new GetAllSettleResp(BaseResp.SUCCESS, settleInfos);
     }
 
     public int addSettleRecord(String uid, String platformId, String platformName, String platform, int year, int month, int amount){
