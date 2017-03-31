@@ -61,6 +61,8 @@ public class ActorService {
         try{
             user = new User();
             user.setUid(uid);
+            user.setRealName(realName);
+            user.setIdNumber(idNumber);
             user.setLevel(1);
             user.setPassword(User.DEFAULT_PWD);
             user.setRole(User.ACTOR_ROLE);

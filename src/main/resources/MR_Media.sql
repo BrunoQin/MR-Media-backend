@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mr_media
 -- ------------------------------------------------------
--- Server version	5.6.24
+-- Server version	5.7.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `mr_media`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mr_media` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `mr_media`;
 
 --
 -- Table structure for table `actor`
@@ -39,7 +47,7 @@ CREATE TABLE `actor` (
   PRIMARY KEY (`id`),
   KEY `uid_fk_idx` (`uid`),
   CONSTRAINT `uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +56,7 @@ CREATE TABLE `actor` (
 
 LOCK TABLES `actor` WRITE;
 /*!40000 ALTER TABLE `actor` DISABLE KEYS */;
+INSERT INTO `actor` VALUES (1,13,'img/join.jpg',0,'wechatBruno','2654625451235',3,0,'12331212523','shanghai','324234@df.com','4154721312312','秦博'),(2,14,'img/join.jpg',1,'wechatHoracio','2654625451235',1,1,'54321212523','shanghai','rersthrt34@df.com','4154721312312','黄日天');
 /*!40000 ALTER TABLE `actor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +74,7 @@ CREATE TABLE `admin` (
   PRIMARY KEY (`id`),
   KEY `fk_USER_ADMIN_idx` (`uid`),
   CONSTRAINT `fk_USER_ADMIN` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +83,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+INSERT INTO `admin` VALUES (1,1,'12312312');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +106,7 @@ CREATE TABLE `agent` (
   PRIMARY KEY (`id`),
   KEY `agent_uid_fk_idx` (`uid`),
   CONSTRAINT `agent_uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,6 +115,7 @@ CREATE TABLE `agent` (
 
 LOCK TABLES `agent` WRITE;
 /*!40000 ALTER TABLE `agent` DISABLE KEYS */;
+INSERT INTO `agent` VALUES (1,1,'1231','123123','123123','12312312','21312312','12312'),(2,10,'img/join.jpg','wechat1223','12332112312','123@123.com','1323124214124','qwer'),(3,11,'img/join.jpg','wechat414123','12332112312','1223@123.com','132sda3124214124','efsdfsdf'),(4,12,'img/join.jpg','wechat543534','12332112315','12sfa23@123.com','132ssdfda3124214124','fdgsdfg');
 /*!40000 ALTER TABLE `agent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +223,7 @@ CREATE TABLE `platform` (
   PRIMARY KEY (`id`),
   KEY `plat_form_fk_idx` (`actor_id`),
   CONSTRAINT `plat_form_fk` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,6 +232,7 @@ CREATE TABLE `platform` (
 
 LOCK TABLES `platform` WRITE;
 /*!40000 ALTER TABLE `platform` DISABLE KEYS */;
+INSERT INTO `platform` VALUES (7,1,12,43,2377,3764,'Douyu');
 /*!40000 ALTER TABLE `platform` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +285,7 @@ CREATE TABLE `settle` (
   PRIMARY KEY (`id`),
   KEY `settle_actor_fk_idx` (`actor_id`),
   CONSTRAINT `settle_actor_fk` FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,6 +294,7 @@ CREATE TABLE `settle` (
 
 LOCK TABLES `settle` WRITE;
 /*!40000 ALTER TABLE `settle` DISABLE KEYS */;
+INSERT INTO `settle` VALUES (1,1,'rrr','rrr','douyu','2017-04-01 00:00:00',100),(2,1,'123123','秦小波','Douyu','2017-01-01 00:00:00',1235),(7,2,'123321','horaio','YY','2017-03-01 00:00:00',2135452);
 /*!40000 ALTER TABLE `settle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,7 +321,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `super_id_uid_fk_idx` (`super_id`),
   CONSTRAINT `super_id_uid_fk` FOREIGN KEY (`super_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,8 +330,13 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'ddd','ddd',1,1,0,'a6c90bdd01d18502d72cd529447c4cb7','2017-04-30 12:09:29',NULL,1,'ddd','213123'),(10,'111','password',1,1,0,NULL,NULL,NULL,2,'qwer','1323124214124'),(11,'123','password',1,1,0,NULL,NULL,NULL,2,'efsdfsdf','132sda3124214124'),(12,'37656','password',1,1,0,NULL,NULL,NULL,2,'fdgsdfg','132ssdfda3124214124'),(13,'rrr','password',2,10,0,NULL,NULL,NULL,3,'秦博','2654625451235'),(14,'horacio','password',1,1,0,NULL,NULL,NULL,3,'黄日天','2654625451235');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'mr_media'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -329,4 +347,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-29 17:35:54
+-- Dump completed on 2017-03-31 13:58:26

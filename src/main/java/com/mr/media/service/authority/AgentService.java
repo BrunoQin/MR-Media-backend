@@ -132,6 +132,8 @@ public class AgentService {
             user.setLevel(1);
             user.setPassword(User.DEFAULT_PWD);
             user.setRole(User.AGENT_ROLE);
+            user.setRealName(realName);
+            user.setIdNumber(idNumber);
             user.setDisable(User.USER_ACTIVE);
             user.setSuperUser(superAdmin);
 
