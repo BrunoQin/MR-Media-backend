@@ -74,6 +74,9 @@ public class BaseResp {
     public static final int LOOK_UP_SUB_EMPLOYUEES_NULL_UID = 26;
 
     // 未知错误
+    public static final int RESOURCES_NOT_EXIST = 27;
+
+    // 未知错误
     public static final int UNKNOWN = 999;
 
     public int errCode;

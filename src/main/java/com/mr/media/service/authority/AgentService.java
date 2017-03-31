@@ -5,6 +5,8 @@ import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.review.GetAllReviewsResp;
+import com.mr.media.service.ReviewService;
 import com.mr.media.service.UploadService;
 import com.mr.media.service.UserService;
 import com.mr.media.tool.Pair;
@@ -32,6 +34,10 @@ public class AgentService {
 
     @Autowired
     UploadService uploadService;
+
+
+    @Autowired
+    ReviewService reviewService;
 
     final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -148,6 +154,11 @@ public class AgentService {
             return BaseResp.UNKNOWN;
         }
 
+    }
+
+    public GetAllReviewsResp getAllReviewsResp(String token) {
+        User user = userService.findUserByToken(token);
+        return reviewService.getAllReviews(user);
     }
 
 //    public UploadPictureResp uploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture) {
