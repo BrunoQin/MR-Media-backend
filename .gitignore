@@ -18,7 +18,8 @@ hs_err_pid*
 
 .idea/
 
-
+# web
+webapp/
 
 # gradle
 
