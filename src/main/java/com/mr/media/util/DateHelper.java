@@ -60,6 +60,20 @@ public class DateHelper {
         return cal.getTime();
     }
 
+    /**
+     * 把时间转换成年月的形式
+     * @param year
+     * @param month
+     * @return
+     */
+    public static Date generateDateFromYearAndMonth(int year, int month){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.YEAR, year);
+        return calendar.getTime();
+    }
+
 
     /**
      * 将指定Date对象加上指定的天数

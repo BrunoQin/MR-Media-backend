@@ -76,6 +76,9 @@ public class BaseResp {
     // 未知错误
     public static final int RESOURCES_NOT_EXIST = 27;
 
+    // 该用户不是艺人
+    public static final int USER_NOT_ACTOR = 28;
+
     // 未知错误
     public static final int UNKNOWN = 999;
 

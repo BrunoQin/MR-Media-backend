@@ -7,6 +7,7 @@ public class AgentRegisterReq {
 
     public String uid;
     public String realName;
+    public String avatar;
     public String phoneNumber;
     public String weChatNumber;
     public String email;

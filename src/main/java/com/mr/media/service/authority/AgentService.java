@@ -115,7 +115,7 @@ public class AgentService {
 
     }
 
-    public int agentRegister(String uid, String realName, String phoneNumber, String weChatNumber, String email, String idNumber){
+    public int agentRegister(String uid, String realName, String avatar, String phoneNumber, String weChatNumber, String email, String idNumber){
 
         User user = userService.findUserByUid(uid);
         if(user != null) {
@@ -125,32 +125,29 @@ public class AgentService {
         // 找到超级管理员，以后要改
         User superAdmin = userService.findUserByUid("ddd");
 
-//        user.setRealName(realName);
-//        user.setPhoneNumber(phoneNumber);
-//        user.setWechatNumber(weChatNumber);
-//        user.setEmail(email);
-//        user.setSettleType(settleType);
-//        user.setSettleAccount(settleAccount);
-//        user.setAuthority(1);
-
         Ebean.beginTransaction();
         try{
             user = new User();
             user.setUid(uid);
             user.setLevel(1);
+            user.setPassword(User.DEFAULT_PWD);
             user.setRole(User.AGENT_ROLE);
+            user.setRealName(realName);
+            user.setIdNumber(idNumber);
             user.setDisable(User.USER_ACTIVE);
             user.setSuperUser(superAdmin);
 
             Agent agent = new Agent();
+            agent.setAgent(user);
             agent.setRealName(realName);
             agent.setPhoneNumber(phoneNumber);
+            agent.setAvatar(avatar);
             agent.setWechatNumber(weChatNumber);
             agent.setEmail(email);
             agent.setIdNumber(idNumber);
 
-            agent.save();
             user.save();
+            agent.save();
             Ebean.commitTransaction();
             return BaseResp.SUCCESS;
         } catch (Exception e) {
