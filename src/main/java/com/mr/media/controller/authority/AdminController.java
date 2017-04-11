@@ -3,9 +3,8 @@ package com.mr.media.controller.authority;
 import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
 import com.mr.media.model.User;
-import com.mr.media.request.authority.admin.CreateAdminReq;
+import com.mr.media.request.authority.admin.OperateAdminReq;
 import com.mr.media.response.BaseResp;
-import com.mr.media.response.authority.admin.GetAllAdminResp;
 import com.mr.media.response.authority.admin.GetPagedActorsResp;
 import com.mr.media.response.authority.admin.GetPagedAgentsResp;
 import com.mr.media.service.UserService;
@@ -114,13 +113,13 @@ public class AdminController {
 
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public GetAllAdminResp getAllAdmin(String token){
+    public BaseResp getAllAdmin(String token){
         return adminService.getAllAdmin();
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public BaseResp createAdmin(String token, @RequestBody CreateAdminReq createAdminReq){
-        return adminService.createAdmin(createAdminReq);
+    @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
+    public BaseResp createAdmin(String token, @RequestBody OperateAdminReq operateAdminReq){
+        return adminService.operateAdmin(operateAdminReq);
     }
 
 }
