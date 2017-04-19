@@ -4,20 +4,18 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.ExpressionList;
 import com.avaje.ebean.PagedList;
 import com.mr.media.model.Admin;
-import com.mr.media.model.Agent;
 import com.mr.media.model.Authority;
 import com.mr.media.model.User;
-import com.mr.media.request.authority.admin.CreateAdminReq;
+import com.mr.media.request.authority.admin.OperateAdminReq;
+import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.admin.GetAllAdminResp;
 import com.mr.media.tool.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -70,7 +68,12 @@ public class AdminService {
         return new GetAllAdminResp(BaseResp.SUCCESS,
                 Ebean.find(Admin.class).where().findList().stream().map(
                         o -> {
-                            return new GetAllAdminResp.AdminRespEntity(o, getAuthorities(o));
+                            GetAllAdminResp.AdminResp adminResp = new GetAllAdminResp.AdminResp();
+                            adminResp.auth = getAuthorities(o);
+                            adminResp.id = o.getId();
+                            adminResp.name = o.getAdmin().getRealName();
+                            adminResp.phone = o.getPhoneNumber();
+                            return adminResp;
                         }
                 ).collect(Collectors.toList()));
     }
@@ -85,20 +88,69 @@ public class AdminService {
         ).collect(Collectors.toList());
     }
 
-    public BaseResp createAdmin(CreateAdminReq createAdminReq) {
+
+
+    private BaseResp createAdmin(OperateAdminReq operateAdminReq){
         Ebean.beginTransaction();
         Admin admin = new Admin();
         User user = new User();
-        user.setSuperUser(null);
-        user.setPassword("password");
-        user.setRealName("");
+        User root = Ebean.find(User.class).where().eq("id", 1).findUnique();
+        user.setPassword(operateAdminReq.password);
+        user.setRealName(operateAdminReq.name);
+        user.setLevel(root.getLevel()+1);
+        user.setDisable(0);
+        user.setSuperUser(root);
+        user.setRole(User.ADMIN_ROLE);
         user.setIdNumber("");
-        user.setUid(createAdminReq.getUid());
+        user.setUid(operateAdminReq.userName);
+        admin.setPhoneNumber(operateAdminReq.phoneNumber);
         admin.setAdmin(user);
-        admin.setPhoneNumber(createAdminReq.getPhoneNumber());
-        admin.update();
+        user.save();
+        admin.save();
+        for(Integer auth: operateAdminReq.authorities){
+            Authority authority = new Authority();
+            authority.setAdmin(admin);
+            authority.setAuthority(auth);
+            authority.save();
+        }
+        Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
+    }
+
+
+    private BaseResp editAdmin(OperateAdminReq operateAdminReq){
+        Ebean.beginTransaction();
+        Admin newAdmin = Ebean.find(Admin.class).where().eq("id", operateAdminReq.id).findUnique();
+        newAdmin.getAdmin().setRealName(operateAdminReq.name);
+        newAdmin.getAdmin().setUid(operateAdminReq.userName);
+        newAdmin.setPhoneNumber(operateAdminReq.phoneNumber);
+        newAdmin.getAdmin().update();
+        newAdmin.update();
+        List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", newAdmin.getId()).findList();
+        for( Authority oldAuth: oldAuths){
+            oldAuth.delete();
+        }
+        for(Integer auth: operateAdminReq.authorities){
+            Authority authority = new Authority();
+            authority.setAdmin(newAdmin);
+            authority.setAuthority(auth);
+            authority.save();
+        }
+        Ebean.commitTransaction();
+        Ebean.endTransaction();
+        return new BaseResp(BaseResp.SUCCESS);
+    }
+
+
+
+    public BaseResp operateAdmin(OperateAdminReq operateAdminReq) {
+        if(operateAdminReq.id == -1){
+            return createAdmin(operateAdminReq);
+        }
+        else{
+            return editAdmin(operateAdminReq);
+        }
     }
     
 }

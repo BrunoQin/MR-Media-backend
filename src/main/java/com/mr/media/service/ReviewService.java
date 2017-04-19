@@ -6,6 +6,7 @@ import com.avaje.ebean.PagedList;
 import com.mr.media.model.*;
 import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.authority.agent.GetReviewsResp;
 import com.mr.media.response.review.GetAllReviewsResp;
 import com.mr.media.service.authority.ActorService;
 import com.mr.media.service.authority.AgentService;
@@ -94,34 +95,92 @@ public class ReviewService {
 
     }
 
-    public GetAllReviewsResp getAllReviews(User recommender){
-        List<Review> reviews;
-        if(recommender != null){
-            reviews =  Ebean.find(Review.class).where().eq("recommend_id", recommender.getId()).findList();
-        }
-        else{
-            reviews =  Ebean.find(Review.class).where().findList();
-        }
-        List<GetAllReviewsResp.ActorReviewEntity> actorReviewEntityList = new ArrayList<>();
-        List<GetAllReviewsResp.AgentReviewEntity> agentReviewEntityList = new ArrayList<>();
+
+    private Integer ID_PICTURE_TYPE = 0;
+    private Integer PICTURE_TYPE = 1;
+
+    public GetAllReviewsResp getAllReviews(){
+        List<Review> reviews = Ebean.find(Review.class).where().findList();
+        List<GetAllReviewsResp.ReviewActor> actorReviewEntityList = new ArrayList<>();
+        List<GetAllReviewsResp.ReviewManager> agentReviewEntityList = new ArrayList<>();
         for(Review review: reviews){
             if(review.getCreator().getRole() == User.ACTOR_ROLE){
-                Actor actor = Ebean.find(Actor.class).where().eq("uid.id", review.getCreator().getId()).findUnique();
-                actorReviewEntityList.add(new GetAllReviewsResp.ActorReviewEntity(review,
-                        getPictures(review, 0),
-                        getPictures(review, 1),
-                        actor));
+                Actor actor = Ebean.find(Actor.class).where().eq("actor.id", review.getCreator().getId()).findUnique();
+                GetAllReviewsResp.ReviewActor reviewActor = new GetAllReviewsResp.ReviewActor();
+                reviewActor.id = review.getCreator().getUid();
+                reviewActor.avatar = actor.getAvatar();
+                reviewActor.father = review.getCreator().getSuperUser().getRealName();
+                reviewActor.idCard = actor.getIdNumber();
+                reviewActor.location = actor.getLocation();
+                reviewActor.name = actor.getRealName();
+                reviewActor.payAccount = actor.getSettleAccount();
+                reviewActor.payType = actor.getSettleType();
+                reviewActor.phone = actor.getPhoneNumber();
+                reviewActor.skills = new ArrayList<>();
+                reviewActor.status = review.getStatus();
+                reviewActor.wechat = actor.getWechatNumber();
+                reviewActor.idPics = getPictures(review, ID_PICTURE_TYPE);
+                reviewActor.photo = getPictures(review, PICTURE_TYPE);
+                actorReviewEntityList.add(reviewActor);
             }
-            if(review.getCreator().getRole() == User.ACTOR_ROLE){
-                Agent agent = Ebean.find(Agent.class).where().eq("uid.id", review.getCreator().getId()).findUnique();
-                agentReviewEntityList.add(new GetAllReviewsResp.AgentReviewEntity(review,
-                        getPictures(review, 0),
-                        getPictures(review, 1),
-                        agent));
+            if(review.getCreator().getRole() == User.AGENT_ROLE){
+                Agent agent = Ebean.find(Agent.class).where().eq("agent.id", review.getCreator().getId()).findUnique();
+                GetAllReviewsResp.ReviewManager reviewAgent = new GetAllReviewsResp.ReviewManager();
+                reviewAgent.id = review.getCreator().getUid();
+                reviewAgent.avatar = agent.getAvatar();
+                reviewAgent.father = review.getCreator().getSuperUser().getRealName();
+                reviewAgent.idCard = agent.getIdNumber();
+                reviewAgent.name = agent.getRealName();
+                // agent 没有settleAccount
+                reviewAgent.payAccount = "";
+                // agent 没有payType
+                reviewAgent.payType = 0;
+                reviewAgent.phone = agent.getPhoneNumber();
+                reviewAgent.status = review.getStatus();
+                reviewAgent.wechat = agent.getWechatNumber();
+                reviewAgent.idPics = getPictures(review, ID_PICTURE_TYPE);
+                agentReviewEntityList.add(reviewAgent);
             }
-
         }
-        return new GetAllReviewsResp(BaseResp.SUCCESS, actorReviewEntityList, agentReviewEntityList);
+        GetAllReviewsResp.GetAllReviewsRespData data = new GetAllReviewsResp.GetAllReviewsRespData();
+        data.actor = actorReviewEntityList;
+        data.manager = agentReviewEntityList;
+        return new GetAllReviewsResp(BaseResp.SUCCESS, data);
+    }
+
+
+    public GetReviewsResp getReviewByRecommeder(User recommender) {
+        List<Review> reviews =  Ebean.find(Review.class).where().eq("recommender", recommender.getId()).findList();
+        List<GetReviewsResp.Person> persons = new ArrayList<>();
+        for(Review review: reviews){
+            if(review.getCreator().getRole() == User.ACTOR_ROLE){
+                Actor actor = Ebean.find(Actor.class).where().eq("actor.id", review.getCreator().getId()).findUnique();
+                GetReviewsResp.Person person = new GetReviewsResp.Person();
+                person.id = review.getCreator().getUid();
+                person.type = User.ACTOR_ROLE;
+                person.status = review.getStatus();
+                person.name = review.getCreator().getRealName();
+                person.phone = actor.getPhoneNumber();
+                person.wechat = actor.getWechatNumber();
+                person.father = review.getCreator().getSuperUser().getRealName();
+                person.idCard = actor.getIdNumber();
+                persons.add(person);
+            }
+            if(review.getCreator().getRole() == User.AGENT_ROLE){
+                Agent agent = Ebean.find(Agent.class).where().eq("agent.id", review.getCreator().getId()).findUnique();
+                GetReviewsResp.Person person = new GetReviewsResp.Person();
+                person.id = review.getCreator().getUid();
+                person.type = User.AGENT_ROLE;
+                person.status = review.getStatus();
+                person.name = review.getCreator().getRealName();
+                person.phone = agent.getPhoneNumber();
+                person.wechat = agent.getWechatNumber();
+                person.father = review.getCreator().getSuperUser().getRealName();
+                person.idCard = agent.getIdNumber();
+                persons.add(person);
+            }
+        }
+        return new GetReviewsResp(BaseResp.SUCCESS, persons);
     }
 
 
@@ -141,6 +200,7 @@ public class ReviewService {
             return new BaseResp(BaseResp.RESOURCES_NOT_EXIST);
         }
         review.delete();
+        Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
     }
@@ -161,6 +221,7 @@ public class ReviewService {
             review.setStatus(2);
         }
         review.update();
+        Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
     }

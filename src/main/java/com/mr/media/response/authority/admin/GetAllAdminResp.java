@@ -2,6 +2,7 @@ package com.mr.media.response.authority.admin;
 
 import com.mr.media.model.Admin;
 import com.mr.media.response.BaseResp;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -11,25 +12,17 @@ import java.util.List;
 
 public class GetAllAdminResp extends BaseResp{
 
-    static public class AdminRespEntity{
-        public Admin admin;
-        public List<Integer> authorities;
+    public List<AdminResp> admin;
 
-        public AdminRespEntity(Admin admin, List<Integer> authorities) {
-            this.admin = admin;
-            this.authorities = authorities;
-        }
+    public GetAllAdminResp(int errCode, List<AdminResp> admin) {
+        super(errCode);
+        this.admin = admin;
     }
 
-    public List<AdminRespEntity> admins;
-
-    public GetAllAdminResp(int errCode, List<AdminRespEntity> admins) {
-        super(errCode);
-        this.admins = admins;
-    }
-
-    public GetAllAdminResp(int errCode) {
-        super(errCode);
-
+    static public class AdminResp{
+        public Integer id;
+        public String name;
+        public String phone;
+        public List<Integer> auth;
     }
 }

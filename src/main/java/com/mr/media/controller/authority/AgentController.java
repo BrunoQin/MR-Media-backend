@@ -47,7 +47,7 @@ public class AgentController {
     }
 
     @RequestMapping(value = "/reviews", method = RequestMethod.POST)
-    public GetAllReviewsResp getReviews(String token){
+    public BaseResp getReviews(String token){
         return agentService.getAllReviewsResp(token);
     }
 

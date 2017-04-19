@@ -5,6 +5,7 @@ import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
+import com.mr.media.response.authority.agent.GetReviewsResp;
 import com.mr.media.response.review.GetAllReviewsResp;
 import com.mr.media.service.ReviewService;
 import com.mr.media.service.UploadService;
@@ -158,9 +159,10 @@ public class AgentService {
 
     }
 
-    public GetAllReviewsResp getAllReviewsResp(String token) {
+    public GetReviewsResp getAllReviewsResp(String token) {
         User user = userService.findUserByToken(token);
-        return reviewService.getAllReviews(user);
+        GetReviewsResp resp = reviewService.getReviewByRecommeder(user);
+        return resp;
     }
 
 //    public UploadPictureResp uploadPictures(String token, MultipartFile frontPicture, MultipartFile backPicture) {
