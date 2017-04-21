@@ -73,6 +73,7 @@ public class AdminService {
                             adminResp.id = o.getId();
                             adminResp.name = o.getAdmin().getRealName();
                             adminResp.phone = o.getPhoneNumber();
+                            adminResp.username = o.getAdmin().getUid();
                             return adminResp;
                         }
                 ).collect(Collectors.toList()));
@@ -118,7 +119,7 @@ public class AdminService {
             authority.setAuthority(auth);
             authority.save();
         }
-        
+
         Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
