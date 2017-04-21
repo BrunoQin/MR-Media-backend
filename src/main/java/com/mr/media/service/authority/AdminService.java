@@ -125,8 +125,8 @@ public class AdminService {
         newAdmin.getAdmin().setRealName(operateAdminReq.name);
         newAdmin.getAdmin().setUid(operateAdminReq.userName);
         newAdmin.setPhoneNumber(operateAdminReq.phoneNumber);
-        newAdmin.getAdmin().update();
-        newAdmin.update();
+        newAdmin.getAdmin().save();
+        newAdmin.save();
         List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", newAdmin.getId()).findList();
         for( Authority oldAuth: oldAuths){
             oldAuth.delete();
