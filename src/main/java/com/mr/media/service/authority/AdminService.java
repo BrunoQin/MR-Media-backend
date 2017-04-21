@@ -118,6 +118,7 @@ public class AdminService {
             authority.setAuthority(auth);
             authority.save();
         }
+        
         Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
