@@ -22,6 +22,7 @@ public class GetAllAdminResp extends BaseResp{
     static public class AdminResp{
         public Integer id;
         public String name;
+        public String username;
         public String phone;
         public List<Integer> auth;
     }

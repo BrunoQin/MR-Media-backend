@@ -73,6 +73,7 @@ public class AdminService {
                             adminResp.id = o.getId();
                             adminResp.name = o.getAdmin().getRealName();
                             adminResp.phone = o.getPhoneNumber();
+                            adminResp.username = o.getAdmin().getUid();
                             return adminResp;
                         }
                 ).collect(Collectors.toList()));
@@ -95,7 +96,12 @@ public class AdminService {
         Admin admin = new Admin();
         User user = new User();
         User root = Ebean.find(User.class).where().eq("id", 1).findUnique();
-        user.setPassword(operateAdminReq.password);
+        if(operateAdminReq.password.equals("")){
+            user.setPassword("admin1");
+        }
+        else{
+            user.setPassword(operateAdminReq.password);
+        }
         user.setRealName(operateAdminReq.name);
         user.setLevel(root.getLevel()+1);
         user.setDisable(0);
@@ -113,6 +119,7 @@ public class AdminService {
             authority.setAuthority(auth);
             authority.save();
         }
+
         Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
@@ -123,6 +130,7 @@ public class AdminService {
         Ebean.beginTransaction();
         Admin newAdmin = Ebean.find(Admin.class).where().eq("id", operateAdminReq.id).findUnique();
         newAdmin.getAdmin().setRealName(operateAdminReq.name);
+        newAdmin.getAdmin().setPassword(operateAdminReq.password);
         newAdmin.getAdmin().setUid(operateAdminReq.userName);
         newAdmin.setPhoneNumber(operateAdminReq.phoneNumber);
         newAdmin.getAdmin().save();
