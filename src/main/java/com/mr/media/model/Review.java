@@ -16,9 +16,10 @@ public class Review extends Model{
     public static final int UNREAD_REVIEW = 1;
     public static final int UNMARK = 2;
 
-    public static final int ACTION_ACCEPT = 0;
-    public static final int ACTION_DECLINE = 1;
-    public static final int ACTION_DELETE = 2;
+    public static final int ACTION_UNHANDLE = 0;
+    public static final int ACTION_ACCEPT = 1;
+    public static final int ACTION_DECLINE = 2;
+    public static final int ACTION_DELETE = 3;
 
     @Id
     @Column(name = "id")

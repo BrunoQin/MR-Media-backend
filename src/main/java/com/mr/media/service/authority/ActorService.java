@@ -2,6 +2,7 @@ package com.mr.media.service.authority;
 
 import com.avaje.ebean.Ebean;
 import com.mr.media.model.Actor;
+import com.mr.media.model.Review;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.actor.UploadAvatarResp;
@@ -82,8 +83,16 @@ public class ActorService {
             actor.setSettleAccount(settleAccount);
             actor.setIdNumber(idNumber);
 
+            Review review = new Review();
+            review.setRecommender(superAdmin);
+            review.setCreator(superAdmin);
+            review.setStatus(Review.UNREAD_REVIEW);
+            review.setTextContent("test");
+            review.setAction(Review.ACTION_UNHANDLE);
+
             user.save();
             actor.save();
+            review.save();
             Ebean.commitTransaction();
             return BaseResp.SUCCESS;
         } catch (Exception e) {

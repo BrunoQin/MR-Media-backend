@@ -3,6 +3,7 @@ package com.mr.media.service.authority;
 import com.avaje.ebean.Ebean;
 import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
+import com.mr.media.model.Review;
 import com.mr.media.model.User;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.agent.GetReviewsResp;
@@ -122,7 +123,7 @@ public class AgentService {
         if(user != null) {
             return BaseResp.AGENT_REGISTER_EXIST_UID;
         }
-        // 创建通知以及审核×××××待完成
+        // 创建通知,待完成
         // 找到超级管理员，以后要改
         User superAdmin = userService.findUserByUid("ddd");
 
@@ -147,8 +148,16 @@ public class AgentService {
             agent.setEmail(email);
             agent.setIdNumber(idNumber);
 
+            Review review = new Review();
+            review.setRecommender(superAdmin);
+            review.setCreator(superAdmin);
+            review.setStatus(Review.UNREAD_REVIEW);
+            review.setTextContent("test");
+            review.setAction(Review.ACTION_UNHANDLE);
+
             user.save();
             agent.save();
+            review.save();
             Ebean.commitTransaction();
             return BaseResp.SUCCESS;
         } catch (Exception e) {

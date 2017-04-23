@@ -79,7 +79,7 @@ public class ReviewService {
         }
 
         if(action != null){
-            if(action != Review.ACTION_ACCEPT && action != Review.ACTION_DECLINE && action != Review.ACTION_DELETE){
+            if(action != Review.ACTION_UNHANDLE && action != Review.ACTION_ACCEPT && action != Review.ACTION_DECLINE && action != Review.ACTION_DELETE){
                 return BaseResp.MARK_REVIEW_WRONG_TYPE;
             }
             review.setAction(action);
