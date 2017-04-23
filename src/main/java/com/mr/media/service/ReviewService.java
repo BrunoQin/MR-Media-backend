@@ -150,7 +150,7 @@ public class ReviewService {
 
 
     public GetReviewsResp getReviewByRecommeder(User recommender) {
-        List<Review> reviews =  Ebean.find(Review.class).where().eq("recommender", recommender.getId()).findList();
+        List<Review> reviews =  Ebean.find(Review.class).where().eq("recommender.id", recommender.getId()).findList();
         List<GetReviewsResp.Person> persons = new ArrayList<>();
         for(Review review: reviews){
             if(review.getCreator().getRole() == User.ACTOR_ROLE){

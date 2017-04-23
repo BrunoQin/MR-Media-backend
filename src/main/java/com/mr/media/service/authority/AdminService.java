@@ -6,6 +6,7 @@ import com.avaje.ebean.PagedList;
 import com.mr.media.model.Admin;
 import com.mr.media.model.Authority;
 import com.mr.media.model.User;
+import com.mr.media.request.authority.admin.DeleteAdminReq;
 import com.mr.media.request.authority.admin.OperateAdminReq;
 import com.mr.media.request.review.OperateReviewReq;
 import com.mr.media.response.BaseResp;
@@ -160,5 +161,14 @@ public class AdminService {
             return editAdmin(operateAdminReq);
         }
     }
-    
+
+    public BaseResp deleteAdmin(DeleteAdminReq deleteAdminReq) {
+        Integer deleteId = deleteAdminReq.id;
+        Admin admin = Ebean.find(Admin.class).where().eq("id", deleteId).findUnique();
+        Ebean.beginTransaction();
+        admin.delete();
+        Ebean.commitTransaction();
+        Ebean.endTransaction();
+        return new BaseResp(BaseResp.SUCCESS);
+    }
 }

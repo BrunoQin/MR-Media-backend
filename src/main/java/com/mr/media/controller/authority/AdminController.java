@@ -3,6 +3,7 @@ package com.mr.media.controller.authority;
 import com.mr.media.model.Actor;
 import com.mr.media.model.Agent;
 import com.mr.media.model.User;
+import com.mr.media.request.authority.admin.DeleteAdminReq;
 import com.mr.media.request.authority.admin.OperateAdminReq;
 import com.mr.media.response.BaseResp;
 import com.mr.media.response.authority.admin.GetPagedActorsResp;
@@ -120,6 +121,11 @@ public class AdminController {
     @RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
     public BaseResp createAdmin(String token, @RequestBody OperateAdminReq operateAdminReq){
         return adminService.operateAdmin(operateAdminReq);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public BaseResp deleteAdmin(String token, @RequestBody DeleteAdminReq deleteAdminReq){
+        return adminService.deleteAdmin(deleteAdminReq);
     }
 
 }
