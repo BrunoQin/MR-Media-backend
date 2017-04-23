@@ -94,61 +94,72 @@ public class AdminService {
 
     private BaseResp createAdmin(OperateAdminReq operateAdminReq){
         Ebean.beginTransaction();
-        Admin admin = new Admin();
-        User user = new User();
-        User root = Ebean.find(User.class).where().eq("id", 1).findUnique();
-        if(operateAdminReq.password.equals("")){
-            user.setPassword("admin1");
-        }
-        else{
-            user.setPassword(operateAdminReq.password);
-        }
-        user.setRealName(operateAdminReq.name);
-        user.setLevel(root.getLevel()+1);
-        user.setDisable(0);
-        user.setSuperUser(root);
-        user.setRole(User.ADMIN_ROLE);
-        user.setIdNumber("");
-        user.setUid(operateAdminReq.userName);
-        admin.setPhoneNumber(operateAdminReq.phoneNumber);
-        admin.setAdmin(user);
-        user.save();
-        admin.save();
-        for(Integer auth: operateAdminReq.authorities){
-            Authority authority = new Authority();
-            authority.setAdmin(admin);
-            authority.setAuthority(auth);
-            authority.save();
+        try{
+            Admin admin = new Admin();
+            User user = new User();
+            User root = Ebean.find(User.class).where().eq("id", 1).findUnique();
+            if(operateAdminReq.password.equals("")){
+                user.setPassword("admin1");
+            }
+            else{
+                user.setPassword(operateAdminReq.password);
+            }
+            user.setRealName(operateAdminReq.name);
+            user.setLevel(root.getLevel()+1);
+            user.setDisable(0);
+            user.setSuperUser(root);
+            user.setRole(User.ADMIN_ROLE);
+            user.setIdNumber("");
+            user.setUid(operateAdminReq.userName);
+            admin.setPhoneNumber(operateAdminReq.phoneNumber);
+            admin.setAdmin(user);
+            user.save();
+            admin.save();
+            for(Integer auth: operateAdminReq.authorities){
+                Authority authority = new Authority();
+                authority.setAdmin(admin);
+                authority.setAuthority(auth);
+                authority.save();
+            }
+
+            Ebean.commitTransaction();
+            Ebean.endTransaction();
+            return new BaseResp(BaseResp.SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new BaseResp(BaseResp.UNKNOWN);
         }
 
-        Ebean.commitTransaction();
-        Ebean.endTransaction();
-        return new BaseResp(BaseResp.SUCCESS);
     }
 
 
     private BaseResp editAdmin(OperateAdminReq operateAdminReq){
         Ebean.beginTransaction();
-        Admin newAdmin = Ebean.find(Admin.class).where().eq("id", operateAdminReq.id).findUnique();
-        newAdmin.getAdmin().setRealName(operateAdminReq.name);
-        newAdmin.getAdmin().setPassword(operateAdminReq.password);
-        newAdmin.getAdmin().setUid(operateAdminReq.userName);
-        newAdmin.setPhoneNumber(operateAdminReq.phoneNumber);
-        newAdmin.getAdmin().save();
-        newAdmin.save();
-        List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", newAdmin.getId()).findList();
-        for( Authority oldAuth: oldAuths){
-            oldAuth.delete();
+        try{
+            Admin newAdmin = Ebean.find(Admin.class).where().eq("id", operateAdminReq.id).findUnique();
+            newAdmin.getAdmin().setRealName(operateAdminReq.name);
+            newAdmin.getAdmin().setPassword(operateAdminReq.password);
+            newAdmin.getAdmin().setUid(operateAdminReq.userName);
+            newAdmin.setPhoneNumber(operateAdminReq.phoneNumber);
+            newAdmin.getAdmin().save();
+            newAdmin.save();
+            List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", newAdmin.getId()).findList();
+            for( Authority oldAuth: oldAuths){
+                oldAuth.delete();
+            }
+            for(Integer auth: operateAdminReq.authorities){
+                Authority authority = new Authority();
+                authority.setAdmin(newAdmin);
+                authority.setAuthority(auth);
+                authority.save();
+            }
+            Ebean.commitTransaction();
+            Ebean.endTransaction();
+            return new BaseResp(BaseResp.SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new BaseResp(BaseResp.UNKNOWN);
         }
-        for(Integer auth: operateAdminReq.authorities){
-            Authority authority = new Authority();
-            authority.setAdmin(newAdmin);
-            authority.setAuthority(auth);
-            authority.save();
-        }
-        Ebean.commitTransaction();
-        Ebean.endTransaction();
-        return new BaseResp(BaseResp.SUCCESS);
     }
 
 
