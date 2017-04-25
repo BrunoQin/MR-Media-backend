@@ -165,8 +165,14 @@ public class AdminService {
     public BaseResp deleteAdmin(DeleteAdminReq deleteAdminReq) {
         Integer deleteId = deleteAdminReq.id;
         Admin admin = Ebean.find(Admin.class).where().eq("id", deleteId).findUnique();
+        User user = Ebean.find(User.class).where().eq("id", admin.getAdmin().getId()).findUnique();
+        List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", admin.getId()).findList();
         Ebean.beginTransaction();
+        for( Authority oldAuth: oldAuths){
+            oldAuth.delete();
+        }
         admin.delete();
+        user.delete();
         Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
