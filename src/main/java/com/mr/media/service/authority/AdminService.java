@@ -93,16 +93,20 @@ public class AdminService {
 
 
     private BaseResp createAdmin(OperateAdminReq operateAdminReq){
+        User user = Ebean.find(User.class).where().eq("uid", operateAdminReq.userName).findUnique();
+        if(user != null){
+            return new BaseResp(BaseResp.CREATED_REALNAME_EXIST);
+        }
         Ebean.beginTransaction();
         try{
             Admin admin = new Admin();
-            User user = new User();
+            user = new User();
             User root = Ebean.find(User.class).where().eq("id", 1).findUnique();
             if(operateAdminReq.password.equals("")){
                 user.setPassword("admin1");
             }
             else{
-                user.setPassword(operateAdminReq.password);
+               user.setPassword(operateAdminReq.password);
             }
             user.setRealName(operateAdminReq.name);
             user.setLevel(root.getLevel()+1);
@@ -176,8 +180,14 @@ public class AdminService {
     public BaseResp deleteAdmin(DeleteAdminReq deleteAdminReq) {
         Integer deleteId = deleteAdminReq.id;
         Admin admin = Ebean.find(Admin.class).where().eq("id", deleteId).findUnique();
+        User user = Ebean.find(User.class).where().eq("id", admin.getAdmin().getId()).findUnique();
+        List<Authority> oldAuths = Ebean.find(Authority.class).where().eq("admin.id", admin.getId()).findList();
         Ebean.beginTransaction();
+        for( Authority oldAuth: oldAuths){
+            oldAuth.delete();
+        }
         admin.delete();
+        user.delete();
         Ebean.commitTransaction();
         Ebean.endTransaction();
         return new BaseResp(BaseResp.SUCCESS);
